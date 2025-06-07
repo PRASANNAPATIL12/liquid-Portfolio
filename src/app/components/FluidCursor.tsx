@@ -2,10 +2,11 @@
 'use client';
 
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 // Helper function to parse HSL string and convert to RGB object for the library
+// This is kept in case a non-COLORFUL mode is used in the future with SPLAT_COLOR
 const hslToRgb = (hslStr: string): { r: number; g: number; b: number } => {
   const regex = /hsl\(\s*(\d+)\s*,\s*(\d+%)\s*,\s*(\d+%)\s*\)/;
   const match = hslStr.match(regex);
@@ -41,79 +42,99 @@ const hslToRgb = (hslStr: string): { r: number; g: number; b: number } => {
 };
 
 
+const desktopConfig = {
+  TRANSPARENT: true,
+  SIM_RESOLUTION: 128,
+  DYE_RESOLUTION: 512, 
+  CAPTURE_RESOLUTION: 512,
+  DENSITY_DISSIPATION: 0.99, // Increased for longer persistence
+  VELOCITY_DISSIPATION: 0.995, // Increased for longer persistence & continuous feel
+  PRESSURE: 0.8,
+  PRESSURE_ITERATIONS: 20,
+  CURL: 25, // Increased for more turbulence
+  SPLAT_RADIUS: 0.4, // Adjusted for "pressed" feel
+  SPLAT_FORCE: 5000, 
+  COLORFUL: true, 
+  COLOR_UPDATE_SPEED: 10,
+  PAUSED: false,
+  BLOOM: true,
+  BLOOM_ITERATIONS: 8,
+  BLOOM_RESOLUTION: 256,
+  BLOOM_INTENSITY: 0.7, // Slightly increased bloom
+  BLOOM_THRESHOLD: 0.5,
+  BLOOM_SOFT_KNEE: 0.7,
+  SUNRAYS: true,
+  SUNRAYS_RESOLUTION: 196,
+  SUNRAYS_WEIGHT: 0.8,
+};
+
+const mobileConfig = {
+  TRANSPARENT: true,
+  SIM_RESOLUTION: 64,        // Reduced for mobile performance
+  DYE_RESOLUTION: 256,       // Reduced
+  CAPTURE_RESOLUTION: 256,   // Reduced
+  DENSITY_DISSIPATION: 0.98, // Slightly faster dissipation
+  VELOCITY_DISSIPATION: 0.985,// Slightly faster dissipation
+  PRESSURE: 0.7,             // Slightly reduced
+  PRESSURE_ITERATIONS: 15,   // Reduced
+  CURL: 10,                  // Reduced turbulence
+  SPLAT_RADIUS: 0.6,         // Larger for touch interaction
+  SPLAT_FORCE: 3000,         // Reduced force
+  COLORFUL: true,
+  COLOR_UPDATE_SPEED: 10,
+  PAUSED: false,
+  BLOOM: true,
+  BLOOM_ITERATIONS: 4,       // Reduced
+  BLOOM_RESOLUTION: 128,     // Reduced
+  BLOOM_INTENSITY: 0.4,      // Reduced
+  BLOOM_THRESHOLD: 0.6,
+  BLOOM_SOFT_KNEE: 0.7,
+  SUNRAYS: true,
+  SUNRAYS_RESOLUTION: 96,    // Reduced
+  SUNRAYS_WEIGHT: 0.4,       // Reduced
+};
+
+
 const FluidCursor: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isMobile = useIsMobile();
-  const [accentColorRgb, setAccentColorRgb] = useState({ r: 0.0, g: 0.7, b: 0.9 }); // Default fallback
+  // accentColorRgb state is kept for potential future use if COLORFUL is set to false
+  // const [accentColorRgb, setAccentColorRgb] = useState({ r: 0.0, g: 0.7, b: 0.9 });
+
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const computedStyle = getComputedStyle(document.documentElement);
+  //     const accentHsl = computedStyle.getPropertyValue('--accent').trim();
+  //     if (accentHsl) {
+  //       const [h, s, l] = accentHsl.split(" ").map(val => val.trim());
+  //       if (h && s && l) {
+  //           setAccentColorRgb(hslToRgb(`hsl(${h}, ${s}, ${l})`));
+  //       }
+  //     }
+  //   }
+  // }, []);
+
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const computedStyle = getComputedStyle(document.documentElement);
-      const accentHsl = computedStyle.getPropertyValue('--accent').trim();
-      if (accentHsl) {
-         // HSL values in globals.css are space-separated numbers for hue, saturation%, lightness%
-         // e.g. --accent: 259 90% 65%;
-        const [h, s, l] = accentHsl.split(" ").map(val => val.trim());
-        if (h && s && l) {
-            setAccentColorRgb(hslToRgb(`hsl(${h}, ${s}, ${l})`));
-        }
-      }
-    }
-  }, []);
-
-
-  useEffect(() => {
-    if (isMobile || !canvasRef.current) {
+    if (!canvasRef.current) {
       return;
     }
 
-    // Dynamically import the library
+    const currentConfig = isMobile ? mobileConfig : desktopConfig;
+
     import('webgl-fluid')
       .then(module => {
         const webGLFluid = module.default;
         if (canvasRef.current && webGLFluid) {
-          const config = {
-            TRANSPARENT: true,
-            SIM_RESOLUTION: 128,
-            DYE_RESOLUTION: 512, 
-            CAPTURE_RESOLUTION: 512,
-            DENSITY_DISSIPATION: 0.985, // How quickly the "dye" fades - increased for longer persistence
-            VELOCITY_DISSIPATION: 0.99, // How quickly movement slows down - increased for longer persistence
-            PRESSURE: 0.8,
-            PRESSURE_ITERATIONS: 20,
-            CURL: 20, // Amount of curl noise, adds turbulence
-            SPLAT_RADIUS: 0.35, // Radius of interaction
-            SPLAT_FORCE: 5000, // Force of interaction
-            // SHADING: true, // Causes issues with transparency sometimes
-            COLORFUL: true, // Uses random splat colors, try false and SPLAT_COLOR for specific theme color
-            // SPLAT_COLOR: accentColorRgb, // Use if COLORFUL is false
-            COLOR_UPDATE_SPEED: 10,
-            PAUSED: false,
-            BLOOM: true,
-            BLOOM_ITERATIONS: 8,
-            BLOOM_RESOLUTION: 256,
-            BLOOM_INTENSITY: 0.6,
-            BLOOM_THRESHOLD: 0.5,
-            BLOOM_SOFT_KNEE: 0.7,
-            SUNRAYS: true,
-            SUNRAYS_RESOLUTION: 196,
-            SUNRAYS_WEIGHT: 0.8,
-          };
           // @ts-ignore webGLFluid expects a config object, types might not be perfect
-          webGLFluid(canvasRef.current, config);
+          webGLFluid(canvasRef.current, currentConfig);
         }
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
       });
 
-    // No explicit cleanup method is provided by the library for the simulation instance.
-    // The canvas and its context will be garbage collected when the component unmounts.
-  }, [isMobile, accentColorRgb]);
-
-  if (isMobile) {
-    return null; // Don't render anything on mobile
-  }
+  }, [isMobile]); // Re-run effect if isMobile changes, though this usually happens once.
 
   return (
     <canvas
@@ -124,8 +145,8 @@ const FluidCursor: FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        pointerEvents: 'none', // The library handles mouse interactions on the canvas internally
-        zIndex: 0, // Render above solid background but below other UI content
+        pointerEvents: 'none', 
+        zIndex: 0, 
       }}
     />
   );

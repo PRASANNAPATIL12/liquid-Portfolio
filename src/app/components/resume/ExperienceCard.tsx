@@ -1,3 +1,4 @@
+
 import type { FC } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +11,7 @@ interface ExperienceCardProps {
 
 const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
   return (
-    <Card className="bg-card/80 backdrop-blur-md border-border transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1">
+    <Card className="bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1">
       <CardHeader className="flex flex-row items-start gap-4">
         {experience.logoUrl ? (
           <Image 
@@ -18,7 +19,7 @@ const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
             alt={`${experience.company} logo`} 
             width={48} 
             height={48} 
-            className="rounded-md border border-border/70"
+            className="rounded-md border border-border/50"
             data-ai-hint="company logo"
           />
         ) : (

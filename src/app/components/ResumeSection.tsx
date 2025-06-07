@@ -1,3 +1,4 @@
+
 import type { FC } from 'react';
 import { resumeData } from '@/data/resume';
 import ExperienceCard from './resume/ExperienceCard';
@@ -13,7 +14,7 @@ const ResumeSection: FC = () => {
       </h2>
 
       {/* Summary Section */}
-      <div className="mb-12 p-6 rounded-lg bg-card/80 backdrop-blur-md border border-border shadow-subtle">
+      <div className="mb-12 p-6 rounded-lg bg-card/70 backdrop-blur-lg border border-border/70 shadow-subtle">
         <h3 className="font-headline text-2xl text-primary mb-3">About Me</h3>
         <p className="text-lg text-muted-foreground leading-relaxed">{resumeData.summary}</p>
       </div>

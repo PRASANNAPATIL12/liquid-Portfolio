@@ -1,3 +1,4 @@
+
 import type { FC } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,7 +14,7 @@ interface ProjectCardProps {
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Card className="flex flex-col bg-card/80 backdrop-blur-md border-border overflow-hidden transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1 h-full">
+    <Card className="flex flex-col bg-card/70 backdrop-blur-lg border-border/70 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1 h-full">
       {project.imageUrl && (
         <div className="relative w-full h-48">
           <Image 
