@@ -9,7 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
-  DYE_RESOLUTION: 512,
+  DYE_RESOLUTION: 512, // Lowered for softer, larger features
   CAPTURE_RESOLUTION: 512,
   DENSITY_DISSIPATION: 0.998,    // Very slow dissipation for persistence
   VELOCITY_DISSIPATION: 0.999,  // Very slow dissipation for persistence
@@ -29,7 +29,7 @@ const desktopConfig = {
   BLOOM_SOFT_KNEE: 0.7,
   SUNRAYS: true,
   SUNRAYS_RESOLUTION: 196,
-  SUNRAYS_WEIGHT: 0.7,          // Slightly reduced sunrays for subtlety with bloom
+  SUNRAYS_WEIGHT: 0.7,
 };
 
 // Mobile Configuration: Optimized for performance, still fluid with random blasts
@@ -71,10 +71,10 @@ const FluidCursor: FC = () => {
   const canvasRef = useRef<FluidCanvasElement>(null);
   const isMobile = useIsMobile();
   const [simulationReady, setSimulationReady] = useState(false);
-  const [currentConfig, setCurrentConfig] = useState(desktopConfig); // Default to desktop
+  const [currentConfig, setCurrentConfig] = useState(desktopConfig); 
 
   useEffect(() => {
-    if (isMobile === undefined) return; // Wait until isMobile is determined
+    if (isMobile === undefined) return; 
 
     const newConfig = isMobile ? mobileConfig : desktopConfig;
     setCurrentConfig(newConfig);
@@ -96,12 +96,11 @@ const FluidCursor: FC = () => {
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
-        document.body.style.cursor = 'auto'; // Show cursor if sim fails
+        document.body.style.cursor = 'auto'; 
       });
 
     return () => {
       document.body.style.cursor = 'auto';
-      // Consider if fluid instance needs explicit cleanup if library provides it
       setSimulationReady(false);
     };
   }, [isMobile]);
@@ -118,18 +117,16 @@ const FluidCursor: FC = () => {
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
         if (currentCanvas.pointer) {
-          const randomX = width * (0.25 + Math.random() * 0.5); // Wider spread
+          const randomX = width * (0.25 + Math.random() * 0.5); 
           const randomY = height * (0.25 + Math.random() * 0.5);
           currentCanvas.pointer.move(randomX, randomY);
           currentCanvas.pointer.down(randomX, randomY);
-          // Keep splat active for a short duration
           setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 70 + Math.random() * 80);
         }
-      }, i * 100); // Slightly more spaced out initial splats
+      }, i * 100); 
     }
     
-    // More frequent random blasts for continuous effect
-    const randomBlastInterval = isMobile ? 2000 : 1200; // Desktop: 1.2s, Mobile: 2s
+    const randomBlastInterval = isMobile ? 2000 : 1200; 
     
     const intervalId = setInterval(() => {
       if (currentCanvas.pointer) {
@@ -139,7 +136,6 @@ const FluidCursor: FC = () => {
         currentCanvas.pointer.move(randomX, randomY);
         currentCanvas.pointer.down(randomX, randomY);
         
-        // Random duration for the splat being "held down"
         setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50 + Math.random() * 100);
       }
     }, randomBlastInterval);
@@ -151,7 +147,6 @@ const FluidCursor: FC = () => {
 
 
   if (isMobile === undefined) {
-    // Still determining if mobile, or if server-side rendering
     return null; 
   }
 
@@ -165,8 +160,8 @@ const FluidCursor: FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        pointerEvents: 'none', // Important: allows clicks to pass through to elements underneath
-        zIndex: 0, // Ensures it's behind UI components
+        // pointerEvents: 'none', // Removed to allow direct cursor interaction
+        zIndex: 0, 
       }}
     />
   );
