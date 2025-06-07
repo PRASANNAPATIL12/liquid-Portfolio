@@ -15,22 +15,22 @@ const desktopConfig = {
   VELOCITY_DISSIPATION: 0.999,
   PRESSURE: 0.7, 
   PRESSURE_ITERATIONS: 20,
-  CURL: 30, // Increased curl for more drift and organic movement
-  SPLAT_RADIUS: 0.6, // Slightly larger for softer, more globule-like splats
+  CURL: 30, 
+  SPLAT_RADIUS: 0.6, 
   SPLAT_FORCE: 6000, 
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
   BLOOM: true,
-  BLOOM_ITERATIONS: 10, // More iterations for softer bloom
+  BLOOM_ITERATIONS: 10, 
   BLOOM_RESOLUTION: 256,
-  BLOOM_INTENSITY: 0.9, // Slightly higher intensity
-  BLOOM_THRESHOLD: 0.5, // Lower threshold for more bloom
+  BLOOM_INTENSITY: 0.9, 
+  BLOOM_THRESHOLD: 0.5, 
   BLOOM_SOFT_KNEE: 0.7,
-  SUNRAYS: true, // Keep sunrays for a glowing effect
+  SUNRAYS: true, 
   SUNRAYS_RESOLUTION: 196,
-  SUNRAYS_WEIGHT: 0.6, // Slightly reduced weight if too overpowering
-  RANDOM_BLAST_INTERVAL: 2500, // More frequent random blasts for continuous activity
+  SUNRAYS_WEIGHT: 0.6, 
+  RANDOM_BLAST_INTERVAL: 2500, 
 };
 
 // Mobile Configuration: Optimized for touch visibility and performance
@@ -43,7 +43,7 @@ const mobileConfig = {
   VELOCITY_DISSIPATION: 0.92, // Lower for longer lasting movement from touch
   PRESSURE: 0.8,            
   PRESSURE_ITERATIONS: 3,   
-  CURL: 10,                  
+  CURL: 5,                  // Reduced curl
   SPLAT_RADIUS: 1.0,        // Significantly Increased for better touch visibility
   SPLAT_FORCE: 9000,       // Significantly Increased for more impact from touch
   COLORFUL: true,
@@ -69,7 +69,7 @@ interface FluidCanvasElement extends HTMLCanvasElement {
   pointer?: {
     down: (x: number, y: number) => void;
     move: (x: number, y: number) => void;
-    up: () => void; // Corrected: up takes no arguments
+    up: () => void; 
   };
 }
 
@@ -109,6 +109,7 @@ const FluidCursor: FC = () => {
     return () => {
       document.body.style.cursor = 'auto';
       setSimulationReady(false);
+      // Consider adding cleanup for fluidInstance if the library provides one
     };
   }, [isMobile]); 
 
@@ -128,17 +129,17 @@ const FluidCursor: FC = () => {
     const numInitialSplats = isMobile ? 1 : 3; 
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
-        if (canvasRef.current?.pointer && 
-            typeof canvasRef.current.pointer.move === 'function' &&
-            typeof canvasRef.current.pointer.down === 'function' &&
-            typeof canvasRef.current.pointer.up === 'function') {
+        if (currentCanvas.pointer && 
+            typeof currentCanvas.pointer.move === 'function' &&
+            typeof currentCanvas.pointer.down === 'function' &&
+            typeof currentCanvas.pointer.up === 'function') {
           const randomX = width * (0.2 + Math.random() * 0.6);
           const randomY = height * (0.2 + Math.random() * 0.6);
-          canvasRef.current.pointer.move(randomX, randomY);
-          canvasRef.current.pointer.down(randomX, randomY);
+          currentCanvas.pointer.move(randomX, randomY);
+          currentCanvas.pointer.down(randomX, randomY);
           setTimeout(() => {
-             if (canvasRef.current?.pointer && typeof canvasRef.current.pointer.up === 'function') {
-                canvasRef.current.pointer.up();
+             if (currentCanvas.pointer && typeof currentCanvas.pointer.up === 'function') {
+                currentCanvas.pointer.up();
              }
           }, 100 + Math.random() * 150);
         }
@@ -152,7 +153,7 @@ const FluidCursor: FC = () => {
           typeof canvasRef.current.pointer.move === 'function' &&
           typeof canvasRef.current.pointer.down === 'function' &&
           typeof canvasRef.current.pointer.up === 'function' && 
-          document.hasFocus()) {
+          document.hasFocus()) { // Only blast if tab is active
         const { clientWidth: currentWidth, clientHeight: currentHeight } = canvasRef.current;
         if (currentWidth === 0 || currentHeight === 0) return; 
 
@@ -180,38 +181,41 @@ const FluidCursor: FC = () => {
       return;
     }
     
+    const currentCanvas = canvasRef.current;
+
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length > 0 && 
-          canvasRef.current &&
-          typeof canvasRef.current.pointer?.move === 'function' &&
-          typeof canvasRef.current.pointer?.down === 'function') {
+          currentCanvas &&
+          typeof currentCanvas.pointer?.move === 'function' &&
+          typeof currentCanvas.pointer?.down === 'function') {
         const touch = event.touches[0];
-        canvasRef.current.pointer.move(touch.clientX, touch.clientY);
-        canvasRef.current.pointer.down(touch.clientX, touch.clientY);
+        currentCanvas.pointer.move(touch.clientX, touch.clientY);
+        currentCanvas.pointer.down(touch.clientX, touch.clientY);
       }
     };
 
     const handleTouchMove = (event: TouchEvent) => {
       if (event.touches.length > 0 &&
-          canvasRef.current &&
-          typeof canvasRef.current.pointer?.move === 'function') {
+          currentCanvas &&
+          typeof currentCanvas.pointer?.move === 'function') {
         const touch = event.touches[0];
-        canvasRef.current.pointer.move(touch.clientX, touch.clientY);
+        currentCanvas.pointer.move(touch.clientX, touch.clientY);
       }
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
+      // Check changedTouches to handle the lifting of a finger
       if (event.changedTouches.length > 0 &&
-          canvasRef.current &&
-          typeof canvasRef.current.pointer?.up === 'function') {
-        canvasRef.current.pointer.up(); // Call up() without arguments
+          currentCanvas &&
+          typeof currentCanvas.pointer?.up === 'function') {
+        currentCanvas.pointer.up(); // Call up() without arguments
       }
     };
 
     document.documentElement.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.documentElement.addEventListener('touchmove', handleTouchMove, { passive: true });
     document.documentElement.addEventListener('touchend', handleTouchEnd, { passive: true });
-    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true }); 
+    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true }); // Also handle touchcancel
 
     return () => {
       document.documentElement.removeEventListener('touchstart', handleTouchStart);
