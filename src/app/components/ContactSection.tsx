@@ -10,7 +10,7 @@ const ContactSection: FC = () => {
       <h2 className="font-headline text-4xl md:text-5xl font-bold mb-12 text-center text-primary">
         Get In Touch
       </h2>
-      <Card className="max-w-xl mx-auto bg-card/80 backdrop-blur-sm border-border shadow-subtle-md p-2 sm:p-4">
+      <Card className="max-w-xl mx-auto bg-card/80 backdrop-blur-md border-border shadow-subtle-md p-2 sm:p-4">
         <CardHeader className="text-center">
           <CardTitle className="font-headline text-3xl text-primary">Let's Connect</CardTitle>
           <CardDescription className="text-muted-foreground">

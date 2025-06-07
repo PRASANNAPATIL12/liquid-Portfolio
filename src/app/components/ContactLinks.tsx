@@ -12,7 +12,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
   const commonLinkClasses = "text-foreground hover:text-primary";
 
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
       <a
         href="https://github.com/PrasannaPatilDeveloper"
         target="_blank"

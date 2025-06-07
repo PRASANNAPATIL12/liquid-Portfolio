@@ -5,10 +5,10 @@ import { ArrowDown } from 'lucide-react';
 const HeroSection: FC = () => {
   return (
     <section id="hero" className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      <h1 className="font-headline text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4 text-primary">
+      <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-primary">
         Prasanna Patil
       </h1>
-      <p className="font-body text-xl sm:text-2xl md:text-3xl text-muted-foreground mb-8 max-w-3xl">
+      <p className="font-body text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl">
         Full Stack Developer & AI Enthusiast | Crafting Digital Experiences with Code and Creativity
       </p>
       <div className="flex flex-col sm:flex-row gap-4 items-center">

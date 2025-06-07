@@ -13,7 +13,7 @@ const ResumeSection: FC = () => {
       </h2>
 
       {/* Summary Section */}
-      <div className="mb-12 p-6 rounded-lg bg-card/80 backdrop-blur-sm border border-border shadow-subtle">
+      <div className="mb-12 p-6 rounded-lg bg-card/80 backdrop-blur-md border border-border shadow-subtle">
         <h3 className="font-headline text-2xl text-primary mb-3">About Me</h3>
         <p className="text-lg text-muted-foreground leading-relaxed">{resumeData.summary}</p>
       </div>
