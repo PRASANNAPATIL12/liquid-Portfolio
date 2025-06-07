@@ -5,19 +5,19 @@ import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Desktop Configuration: Persistent, soft, glowing globules with rich effects
+// Desktop Configuration: Globule-like, persistent, soft, glowing, drifting
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
-  DYE_RESOLUTION: 512, // Higher for desktop detail
+  DYE_RESOLUTION: 512,
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 0.998, // Very persistent for desktop "globules"
+  DENSITY_DISSIPATION: 0.998, // Very persistent
   VELOCITY_DISSIPATION: 0.999, // Very persistent
-  PRESSURE: 0.7, // Softer pressure for desktop
+  PRESSURE: 0.7, // Softer pressure
   PRESSURE_ITERATIONS: 20,
-  CURL: 30, // More swirling for desktop
-  SPLAT_RADIUS: 0.35, // Adjusted for globule feel
-  SPLAT_FORCE: 6000, // Force for desktop interactions
+  CURL: 35, // Increased curl for more drift
+  SPLAT_RADIUS: 0.45, // Larger, softer splats
+  SPLAT_FORCE: 5000, // Softer force
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
@@ -30,35 +30,35 @@ const desktopConfig = {
   SUNRAYS: true,
   SUNRAYS_RESOLUTION: 196,
   SUNRAYS_WEIGHT: 0.7,
-  RANDOM_BLAST_INTERVAL: 1200, // Frequent random blasts for desktop
+  RANDOM_BLAST_INTERVAL: 1200, // More frequent random blasts
 };
 
-// Mobile Configuration: Optimized for performance, touch responsive, still fluid with random blasts
+// Mobile Configuration: Optimized for touch visibility and performance
 const mobileConfig = {
   TRANSPARENT: true,
-  SIM_RESOLUTION: 64, // Lower for mobile performance
-  DYE_RESOLUTION: 128, // Further reduced for mobile performance
-  CAPTURE_RESOLUTION: 256, // Lowered
-  DENSITY_DISSIPATION: 0.96, // Lowered for more visible & lasting touch splats
-  VELOCITY_DISSIPATION: 0.965, // Lowered for more visible & lasting touch splats
-  PRESSURE: 0.8, // Standard pressure
-  PRESSURE_ITERATIONS: 3, // Reduced for performance
-  CURL: 3, // Reduced significantly for performance
-  SPLAT_RADIUS: 0.75, // Larger splat for touch visibility
-  SPLAT_FORCE: 8000, // More impactful touch
+  SIM_RESOLUTION: 64,
+  DYE_RESOLUTION: 128, // Kept low
+  CAPTURE_RESOLUTION: 256,
+  DENSITY_DISSIPATION: 0.955, // Slightly lowered for more visible touch splats
+  VELOCITY_DISSIPATION: 0.96, // Slightly lowered for more visible touch splats
+  PRESSURE: 0.8,
+  PRESSURE_ITERATIONS: 3, // Reduced
+  CURL: 3, // Significantly reduced
+  SPLAT_RADIUS: 0.85, // Increased for better touch visibility
+  SPLAT_FORCE: 9000,  // Increased for more impact
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
-  BLOOM: false, // Disabled for performance
+  BLOOM: false, // Disabled
   BLOOM_ITERATIONS: 0,
   BLOOM_RESOLUTION: 0,
   BLOOM_INTENSITY: 0,
   BLOOM_THRESHOLD: 0,
   BLOOM_SOFT_KNEE: 0,
-  SUNRAYS: false, // Disabled for performance
+  SUNRAYS: false, // Disabled
   SUNRAYS_RESOLUTION: 0,
   SUNRAYS_WEIGHT: 0,
-  RANDOM_BLAST_INTERVAL: 1500, // Frequent blasts for mobile
+  RANDOM_BLAST_INTERVAL: 1500, // Frequent for mobile
 };
 
 
@@ -96,10 +96,10 @@ const FluidCursor: FC = () => {
         if (currentCanvas && fluidInstance) {
           fluidInstance(currentCanvas, selectedConfig);
           setTimeout(() => {
-            if (canvasRef.current) {
+            if (canvasRef.current) { // Check ref still exists
               setSimulationReady(true);
             }
-          }, 50);
+          }, 100); 
         }
       })
       .catch(error => {
@@ -111,7 +111,7 @@ const FluidCursor: FC = () => {
       document.body.style.cursor = 'auto';
       setSimulationReady(false);
     };
-  }, [isMobile]);
+  }, [isMobile]); // Re-run if isMobile changes (key on canvas handles re-mount)
 
 
   // Effect for initial and random blasts
@@ -125,18 +125,20 @@ const FluidCursor: FC = () => {
       console.warn("FluidCursor: Canvas dimensions are zero, skipping initial/random blasts for now.");
       return;
     }
+    
+    const pointerAPI = canvasRef.current.pointer;
 
     const numInitialSplats = isMobile ? 2 : 4;
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
-        if (canvasRef.current && canvasRef.current.pointer) {
+        if (pointerAPI) { // Check pointerAPI still exists
           const randomX = width * (0.3 + Math.random() * 0.4);
           const randomY = height * (0.3 + Math.random() * 0.4);
-          canvasRef.current.pointer.move(randomX, randomY);
-          canvasRef.current.pointer.down(randomX, randomY);
+          pointerAPI.move(randomX, randomY);
+          pointerAPI.down(randomX, randomY);
           setTimeout(() => {
-             if (canvasRef.current && canvasRef.current.pointer) {
-                canvasRef.current.pointer.up(randomX, randomY);
+             if (pointerAPI) { // Check pointerAPI still exists
+                pointerAPI.up(randomX, randomY);
              }
           }, 100 + Math.random() * 150);
         }
@@ -146,16 +148,16 @@ const FluidCursor: FC = () => {
     const randomBlastIntervalConfig = isMobile ? mobileConfig.RANDOM_BLAST_INTERVAL : desktopConfig.RANDOM_BLAST_INTERVAL;
 
     const intervalId = setInterval(() => {
-      if (canvasRef.current && canvasRef.current.pointer && document.hasFocus()) {
+      if (pointerAPI && document.hasFocus()) { // Check pointerAPI still exists
         const randomX = Math.random() * width;
         const randomY = Math.random() * height;
 
-        canvasRef.current.pointer.move(randomX, randomY);
-        canvasRef.current.pointer.down(randomX, randomY);
+        pointerAPI.move(randomX, randomY);
+        pointerAPI.down(randomX, randomY);
 
         setTimeout(() => {
-          if (canvasRef.current && canvasRef.current.pointer) {
-            canvasRef.current.pointer.up(randomX, randomY);
+          if (pointerAPI) { // Check pointerAPI still exists
+            pointerAPI.up(randomX, randomY);
           }
         }, 70 + Math.random() * 80);
       }
@@ -171,27 +173,29 @@ const FluidCursor: FC = () => {
     if (!isMobile || !simulationReady || !canvasRef.current || !canvasRef.current.pointer) {
       return;
     }
+    
+    const pointerAPI = canvasRef.current.pointer;
 
     const handleTouchStart = (event: TouchEvent) => {
-      if (event.touches.length > 0 && canvasRef.current && canvasRef.current.pointer) {
+      if (event.touches.length > 0 && pointerAPI) {
         const touch = event.touches[0];
-        canvasRef.current.pointer.move(touch.clientX, touch.clientY);
-        canvasRef.current.pointer.down(touch.clientX, touch.clientY);
+        pointerAPI.move(touch.clientX, touch.clientY);
+        pointerAPI.down(touch.clientX, touch.clientY);
       }
     };
 
     const handleTouchMove = (event: TouchEvent) => {
-      if (event.touches.length > 0 && canvasRef.current && canvasRef.current.pointer) {
+      if (event.touches.length > 0 && pointerAPI) {
         const touch = event.touches[0];
-        canvasRef.current.pointer.move(touch.clientX, touch.clientY);
+        pointerAPI.move(touch.clientX, touch.clientY);
       }
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
       for (let i = 0; i < event.changedTouches.length; i++) {
-        if (canvasRef.current && canvasRef.current.pointer) {
+        if (pointerAPI) {
           const touch = event.changedTouches[i];
-          canvasRef.current.pointer.up(touch.clientX, touch.clientY);
+          pointerAPI.up(touch.clientX, touch.clientY);
         }
       }
     };
@@ -225,7 +229,7 @@ const FluidCursor: FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0,
-        pointerEvents: isMobile ? 'none' : 'auto', // Conditional pointer-events
+        pointerEvents: isMobile ? 'none' : 'auto', 
       }}
     />
   );
