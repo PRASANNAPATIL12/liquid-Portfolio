@@ -80,7 +80,7 @@ const FluidCursor: FC = () => {
     if (!currentCanvas) return;
 
     document.body.style.cursor = 'none';
-    let fluidInstance: any = null; // To store the module if needed, though not directly used here for splats
+    let fluidInstance: any = null; 
 
     import('webgl-fluid')
       .then(module => {
@@ -128,7 +128,8 @@ const FluidCursor: FC = () => {
     }
     
     // Random Blasts Interval
-    const randomBlastInterval = isMobile ? 5000 : 3000; // Less frequent on mobile
+    // Reduced interval for more frequent blasts
+    const randomBlastInterval = isMobile ? 2500 : 1500; 
     const intervalId = setInterval(() => {
       if (currentCanvas.pointer) {
         const randomX = Math.random() * width;
@@ -137,8 +138,7 @@ const FluidCursor: FC = () => {
         currentCanvas.pointer.move(randomX, randomY);
         currentCanvas.pointer.down(randomX, randomY);
         
-        // Optional: call up after a short delay if splats are too sticky
-        // or if you want to simulate quick "taps"
+        // Call up after a short delay to simulate quick "taps"
         setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50 + Math.random() * 50);
       }
     }, randomBlastInterval);
@@ -156,15 +156,15 @@ const FluidCursor: FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      id="webgl-fluid-canvas" // Added ID for potential specific styling/selection
+      id="webgl-fluid-canvas" 
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100vw',
         height: '100vh',
-        pointerEvents: 'none', // Let clicks pass through to elements behind
-        zIndex: 0, // Behind UI elements but visible
+        pointerEvents: 'none', 
+        zIndex: 0, 
       }}
     />
   );
