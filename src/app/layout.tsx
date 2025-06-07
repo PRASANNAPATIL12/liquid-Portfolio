@@ -27,7 +27,7 @@ export default function RootLayout({
           }
         `}} />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col bg-background text-foreground">
+      <body className="font-body antialiased min-h-screen flex flex-col bg-background text-foreground" suppressHydrationWarning={true}>
         <FluidCursor /> {/* Add the fluid cursor component */}
         {children}
         <Toaster />
