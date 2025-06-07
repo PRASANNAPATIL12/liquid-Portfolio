@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
+import CustomCursor from '@/app/components/CustomCursor'; // Import the new component
 
 export const metadata: Metadata = {
   title: 'Astra Portfolio - Prasanna Patil',
-  description: 'Personal portfolio of Prasanna Patil, showcasing skills, experience, and projects with a neon aesthetic.',
+  description: 'Personal portfolio of Prasanna Patil, showcasing skills, experience, and projects with a sophisticated and minimalistic design.',
 };
 
 export default function RootLayout({
@@ -13,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark"> {/* Assuming dark is the default/only theme now */}
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -27,6 +28,7 @@ export default function RootLayout({
         `}} />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col">
+        <CustomCursor /> {/* Add the custom cursor component */}
         {children}
         <Toaster />
       </body>
