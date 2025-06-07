@@ -1,0 +1,57 @@
+import type { FC } from 'react';
+import Image from 'next/image';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ExternalLink, Github } from 'lucide-react';
+import type { Project } from '@/data/resume';
+import { Badge } from '@/components/ui/badge';
+
+
+interface ProjectCardProps {
+  project: Project;
+}
+
+const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
+  return (
+    <Card className="flex flex-col bg-card/80 backdrop-blur-sm border-accent/50 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-neon-accent transform hover:-translate-y-1 h-full">
+      {project.imageUrl && (
+        <div className="relative w-full h-48">
+          <Image 
+            src={project.imageUrl} 
+            alt={project.name} 
+            layout="fill" 
+            objectFit="cover"
+            className="transition-transform duration-500 hover:scale-105"
+            data-ai-hint={project.dataAiHint || "project image"}
+          />
+        </div>
+      )}
+      <CardHeader>
+        <CardTitle className="font-headline text-xl text-accent">{project.name}</CardTitle>
+        <CardDescription className="text-muted-foreground h-20 overflow-y-auto text-sm">{project.description}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        <div className="mb-2">
+          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">Technologies:</h4>
+          <div className="flex flex-wrap gap-1">
+            {project.technologies.map((tech) => (
+              <Badge key={tech} variant="secondary" className="text-xs bg-primary/20 text-primary border-primary/30">{tech}</Badge>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter>
+        {project.link && (
+          <Button variant="link" size="sm" asChild className="text-accent hover:text-accent/80 p-0 hover-glow-accent">
+            <a href={project.link} target="_blank" rel="noopener noreferrer">
+              {project.link.includes('github.com') ? <Github className="mr-1 h-4 w-4" /> : <ExternalLink className="mr-1 h-4 w-4" />}
+              View Project
+            </a>
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default ProjectCard;

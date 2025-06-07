@@ -11,7 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        headline: ['Space Grotesk', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
@@ -88,11 +88,25 @@ export default {
             height: '0',
           },
         },
+        'border-pulse': {
+          '0%, 100%': { borderColor: 'hsl(var(--accent))' },
+          '50%': { borderColor: 'hsl(var(--primary))' },
+        },
+        'text-glow': {
+          '0%, 100%': { textShadow: '0 0 5px hsl(var(--accent)), 0 0 10px hsl(var(--accent))' },
+          '50%': { textShadow: '0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary))' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'border-pulse': 'border-pulse 3s infinite linear',
+        'text-glow': 'text-glow 3s infinite ease-in-out',
       },
+      boxShadow: {
+        'neon-accent': '0 0 5px hsl(var(--accent)), 0 0 10px hsl(var(--accent)), 0 0 15px hsl(var(--accent))',
+        'neon-primary': '0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary))',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],
