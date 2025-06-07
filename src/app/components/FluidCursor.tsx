@@ -9,7 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
-  DYE_RESOLUTION: 512, // Lowered for potentially softer look
+  DYE_RESOLUTION: 512,
   CAPTURE_RESOLUTION: 512,
   DENSITY_DISSIPATION: 0.998,    // Very slow dissipation for persistence
   VELOCITY_DISSIPATION: 0.999,  // Very slow dissipation for persistence
@@ -32,7 +32,7 @@ const desktopConfig = {
   SUNRAYS_WEIGHT: 0.7,          // Slightly reduced sunrays for subtlety with bloom
 };
 
-// Mobile Configuration: Optimized for performance, still fluid
+// Mobile Configuration: Optimized for performance, still fluid with random blasts
 const mobileConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 64,           // Lowered significantly
@@ -71,7 +71,7 @@ const FluidCursor: FC = () => {
   const canvasRef = useRef<FluidCanvasElement>(null);
   const isMobile = useIsMobile();
   const [simulationReady, setSimulationReady] = useState(false);
-  const [currentConfig, setCurrentConfig] = useState(desktopConfig);
+  const [currentConfig, setCurrentConfig] = useState(desktopConfig); // Default to desktop
 
   useEffect(() => {
     if (isMobile === undefined) return; // Wait until isMobile is determined
@@ -128,7 +128,8 @@ const FluidCursor: FC = () => {
       }, i * 100); // Slightly more spaced out initial splats
     }
     
-    const randomBlastInterval = isMobile ? 2000 : 1200; // More frequent random blasts
+    // More frequent random blasts for continuous effect
+    const randomBlastInterval = isMobile ? 2000 : 1200; // Desktop: 1.2s, Mobile: 2s
     
     const intervalId = setInterval(() => {
       if (currentCanvas.pointer) {
