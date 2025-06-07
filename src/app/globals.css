@@ -9,46 +9,45 @@ body {
 
 @layer base {
   :root {
-    /* Dark mode base with Neon Accents */
-    --background: 220 20% 7%; /* Very dark charcoal/deep blue */
-    --foreground: 220 15% 85%; /* Brighter gray for text, good contrast */
+    /* Dark mode base with Neon Globule Accents */
+    --background: 220 20% 7%; /* Very dark charcoal/deep blue (hsl(220, 20%, 7%)) */
+    --foreground: 220 15% 85%; /* Brighter gray for text */
     
-    --card: 220 20% 10%; /* Slightly lighter than background */
+    --card: 220 20% 10%; /* Slightly lighter than background for cards */
     --card-foreground: 220 15% 85%;
     
     --popover: 220 20% 5%; /* Darker for popovers */
     --popover-foreground: 220 15% 85%;
     
-    /* Neon-inspired Primary - Electric Indigo / Deep Purple */
-    --primary: 258 100% 65%; /* hsl(258, 100%, 65%) Electric Indigo more vibrant */
-    --primary-foreground: 258 100% 95%; /* Very light, almost white for text on primary */
+    /* Neon Primary - Cyan */
+    --primary: 180 100% 50%; /* hsl(180, 100%, 50%) - Bright Cyan */
+    --primary-foreground: 180 100% 10%; /* Dark contrast for text on primary */
     
-    --secondary: 220 15% 20%; /* Dark gray for secondary elements */
+    --secondary: 220 15% 20%; /* Dark gray */
     --secondary-foreground: 220 10% 75%;
     
     --muted: 220 15% 15%; 
     --muted-foreground: 220 10% 60%; 
     
-    /* Neon-inspired Accent - Laser Lemon / Bright Cyan */
-    --accent: 180 100% 55%; /* hsl(180, 100%, 55%) Bright Cyan */
-    /* --accent: 60 100% 70%; /* Laser Lemon variant */
-    --accent-foreground: 180 100% 10%; /* Dark contrast for text on accent */
+    /* Neon Accent - Magenta */
+    --accent: 300 100% 60%; /* hsl(300, 100%, 60%) - Bright Magenta */
+    --accent-foreground: 300 100% 10%; /* Dark contrast for text on accent */
     
-    --destructive: 0 70% 55%; /* More vibrant red */
+    --destructive: 0 70% 55%; /* Vibrant red */
     --destructive-foreground: 0 0% 98%;
     
-    --border: 220 15% 25%; /* Slightly more visible neon-ish border hint */
+    --border: 220 15% 25%; /* Subtle border, can be infused by neon if desired */
     --input: 220 15% 18%; 
-    --ring: 180 100% 55%; /* Ring color aligned with accent (Cyan) */
+    --ring: 180 100% 50%; /* Ring color aligned with primary (Cyan) */
     
     --radius: 0.5rem;
 
     /* Chart colors with neon hints */
-    --chart-1: 258 100% 65%; /* Primary */
-    --chart-2: 180 100% 55%; /* Accent */
-    --chart-3: 300 80% 60%; /* Magenta/Pinkish */
-    --chart-4: 30 100% 60%;  /* Orange */
-    --chart-5: 120 100% 55%; /* Lime Green */
+    --chart-1: 180 100% 50%; /* Primary - Cyan */
+    --chart-2: 300 100% 60%; /* Accent - Magenta */
+    --chart-3: 60 100% 55%;  /* Lime/Yellow */
+    --chart-4: 258 100% 65%; /* Electric Indigo/Purple from previous */
+    --chart-5: 30 100% 60%;  /* Orange */
   }
 
   * {
@@ -57,13 +56,13 @@ body {
   html, body {
     @apply bg-background text-foreground;
     scroll-behavior: smooth;
-    /* cursor: none; is now handled by FluidCursor.tsx dynamically */
+    /* cursor: none; is handled by FluidCursor.tsx or CSS trail */
     overflow-x: hidden; 
     min-height: 100vh;
     width: 100%;
   }
   ::selection {
-    @apply bg-accent/30 text-accent-foreground; 
+    @apply bg-primary/30 text-primary-foreground; 
   }
 }
 
@@ -83,7 +82,7 @@ body {
    box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.04);
 }
 
-canvas#webgl-fluid-canvas { /* Specificity for the fluid canvas if needed */
+canvas#webgl-fluid-canvas { 
   display: block;
   position: fixed;
   top: 0;
@@ -91,5 +90,7 @@ canvas#webgl-fluid-canvas { /* Specificity for the fluid canvas if needed */
   width: 100vw;
   height: 100vh;
   pointer-events: none; 
-  z-index: 0; 
+  z-index: 0; /* Ensures it's behind other content */
 }
+    
+    
