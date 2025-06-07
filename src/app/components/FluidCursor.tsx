@@ -9,7 +9,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
-  DYE_RESOLUTION: 512,
+  DYE_RESOLUTION: 512, // Lowered for potentially softer look
   CAPTURE_RESOLUTION: 512,
   DENSITY_DISSIPATION: 0.998,    // Very slow dissipation for persistence
   VELOCITY_DISSIPATION: 0.999,  // Very slow dissipation for persistence
@@ -32,8 +32,32 @@ const desktopConfig = {
   SUNRAYS_WEIGHT: 0.7,          // Slightly reduced sunrays for subtlety with bloom
 };
 
-// Mobile will use a simple CSS trail, WebGL is too heavy for continuous globules
-// This config is not used if isMobile is true and we render CSS trail
+// Mobile Configuration: Optimized for performance, still fluid
+const mobileConfig = {
+  TRANSPARENT: true,
+  SIM_RESOLUTION: 64,           // Lowered significantly
+  DYE_RESOLUTION: 256,          // Lowered significantly
+  CAPTURE_RESOLUTION: 256,      // Lowered
+  DENSITY_DISSIPATION: 0.98,    // Faster dissipation than desktop
+  VELOCITY_DISSIPATION: 0.985,   // Faster dissipation
+  PRESSURE: 0.8,                // Standard pressure
+  PRESSURE_ITERATIONS: 15,       // Fewer iterations
+  CURL: 20,                     // Less curl
+  SPLAT_RADIUS: 0.6,            // Relatively larger splats to be visible
+  SPLAT_FORCE: 3000,            // Gentler force
+  COLORFUL: true,
+  COLOR_UPDATE_SPEED: 10,
+  PAUSED: false,
+  BLOOM: false,                 // Disabled for performance
+  BLOOM_ITERATIONS: 0,
+  BLOOM_RESOLUTION: 0,
+  BLOOM_INTENSITY: 0,
+  BLOOM_THRESHOLD: 0,
+  BLOOM_SOFT_KNEE: 0,
+  SUNRAYS: false,               // Disabled for performance
+  SUNRAYS_RESOLUTION: 0,
+  SUNRAYS_WEIGHT: 0,
+};
 
 interface FluidCanvasElement extends HTMLCanvasElement {
   pointer?: {
@@ -47,28 +71,14 @@ const FluidCursor: FC = () => {
   const canvasRef = useRef<FluidCanvasElement>(null);
   const isMobile = useIsMobile();
   const [simulationReady, setSimulationReady] = useState(false);
-
-  // For CSS trail on mobile
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const trailDotsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const [currentConfig, setCurrentConfig] = useState(desktopConfig);
 
   useEffect(() => {
-    if (isMobile === undefined) return;
+    if (isMobile === undefined) return; // Wait until isMobile is determined
 
-    if (isMobile) {
-      document.body.style.cursor = 'none';
-      const handleMouseMove = (event: MouseEvent) => {
-        setMousePosition({ x: event.clientX, y: event.clientY });
-      };
-      window.addEventListener('mousemove', handleMouseMove);
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        document.body.style.cursor = 'auto';
-        trailDotsRef.current.forEach(dot => dot?.remove());
-      };
-    }
+    const newConfig = isMobile ? mobileConfig : desktopConfig;
+    setCurrentConfig(newConfig);
 
-    // Desktop WebGL Fluid Sim
     const currentCanvas = canvasRef.current;
     if (!currentCanvas) return;
 
@@ -80,43 +90,46 @@ const FluidCursor: FC = () => {
         fluidInstance = module.default;
         if (currentCanvas && fluidInstance) {
           // @ts-ignore webGLFluid expects a config object
-          fluidInstance(currentCanvas, desktopConfig);
+          fluidInstance(currentCanvas, newConfig);
           setSimulationReady(true);
         }
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
-        document.body.style.cursor = 'auto';
+        document.body.style.cursor = 'auto'; // Show cursor if sim fails
       });
 
     return () => {
       document.body.style.cursor = 'auto';
+      // Consider if fluid instance needs explicit cleanup if library provides it
       setSimulationReady(false);
     };
   }, [isMobile]);
 
 
   useEffect(() => {
-    if (isMobile || !simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
+    if (!simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
 
     const currentCanvas = canvasRef.current;
     const { clientWidth: width, clientHeight: height } = currentCanvas;
 
-    // Initial "Blast"
-    const numInitialSplats = 5; // More splats for initial fill
+    // Initial "Blast" - more prominent
+    const numInitialSplats = isMobile ? 3 : 5;
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
         if (currentCanvas.pointer) {
-          const randomX = width * (0.3 + Math.random() * 0.4);
-          const randomY = height * (0.3 + Math.random() * 0.4);
+          const randomX = width * (0.25 + Math.random() * 0.5); // Wider spread
+          const randomY = height * (0.25 + Math.random() * 0.5);
           currentCanvas.pointer.move(randomX, randomY);
           currentCanvas.pointer.down(randomX, randomY);
-          setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50 + Math.random() * 50);
+          // Keep splat active for a short duration
+          setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 70 + Math.random() * 80);
         }
-      }, i * 80); // Stagger initial splats
+      }, i * 100); // Slightly more spaced out initial splats
     }
     
-    const randomBlastInterval = 1200; // More frequent random blasts
+    const randomBlastInterval = isMobile ? 2000 : 1200; // More frequent random blasts
+    
     const intervalId = setInterval(() => {
       if (currentCanvas.pointer) {
         const randomX = Math.random() * width;
@@ -125,6 +138,7 @@ const FluidCursor: FC = () => {
         currentCanvas.pointer.move(randomX, randomY);
         currentCanvas.pointer.down(randomX, randomY);
         
+        // Random duration for the splat being "held down"
         setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50 + Math.random() * 100);
       }
     }, randomBlastInterval);
@@ -134,59 +148,10 @@ const FluidCursor: FC = () => {
     };
   }, [simulationReady, isMobile]);
 
-  useEffect(() => {
-    if (!isMobile) return;
-
-    const updateTrail = () => {
-      trailDotsRef.current.forEach((dot, index, arr) => {
-        if (!dot) return;
-        const nextDot = arr[index + 1];
-        if (nextDot && nextDot.style.left && nextDot.style.top) {
-          dot.style.left = nextDot.style.left;
-          dot.style.top = nextDot.style.top;
-        } else if (index === 0) {
-          dot.style.left = `${mousePosition.x}px`;
-          dot.style.top = `${mousePosition.y}px`;
-        }
-        dot.style.transform = `scale(${1 - index / 10})`;
-        dot.style.opacity = `${1 - index / 10}`;
-      });
-      requestAnimationFrame(updateTrail);
-    };
-
-    if (isMobile) {
-      for (let i = 0; i < 5; i++) { // Number of trail dots
-        const dot = document.createElement('div');
-        dot.style.position = 'fixed';
-        dot.style.width = '15px'; // CSS trail dot size
-        dot.style.height = '15px';
-        dot.style.backgroundColor = `hsl(${200 + i * 30}, 100%, 70%)`; // Neon-ish colors
-        dot.style.borderRadius = '50%';
-        dot.style.pointerEvents = 'none';
-        dot.style.left = `${mousePosition.x}px`;
-        dot.style.top = `${mousePosition.y}px`;
-        dot.style.zIndex = '9998'; // Below main cursor if it was visible
-        dot.style.transition = 'transform 0.05s linear, opacity 0.05s linear'; // Smooth transition
-        document.body.appendChild(dot);
-        trailDotsRef.current[i] = dot;
-      }
-      requestAnimationFrame(updateTrail);
-    }
-    
-    return () => {
-      trailDotsRef.current.forEach(dot => dot?.remove());
-      trailDotsRef.current = [];
-    };
-  }, [isMobile, mousePosition.x, mousePosition.y]);
-
 
   if (isMobile === undefined) {
-    return null;
-  }
-
-  if (isMobile) {
-    // Render nothing for CSS trail, it's appended to body
-    return null;
+    // Still determining if mobile, or if server-side rendering
+    return null; 
   }
 
   return (
@@ -199,13 +164,11 @@ const FluidCursor: FC = () => {
         left: 0,
         width: '100vw',
         height: '100vh',
-        pointerEvents: 'none',
-        zIndex: 0, // Behind UI components
+        pointerEvents: 'none', // Important: allows clicks to pass through to elements underneath
+        zIndex: 0, // Ensures it's behind UI components
       }}
     />
   );
 };
 
 export default FluidCursor;
-    
-    
