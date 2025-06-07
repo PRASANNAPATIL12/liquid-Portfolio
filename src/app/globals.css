@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,43 +9,46 @@ body {
 
 @layer base {
   :root {
-    /* Minimalist & Sophisticated Palette - Dark Theme */
-    --background: 220 20% 7%; /* Very dark, slightly cool desaturated blue */
-    --foreground: 220 15% 75%; /* Lighter gray for text, soft contrast */
+    /* Dark mode base with Neon Accents */
+    --background: 220 20% 7%; /* Very dark charcoal/deep blue */
+    --foreground: 220 15% 85%; /* Brighter gray for text, good contrast */
     
-    --card: 220 20% 10%; /* Slightly lighter than background for cards */
-    --card-foreground: 220 15% 75%;
+    --card: 220 20% 10%; /* Slightly lighter than background */
+    --card-foreground: 220 15% 85%;
     
-    --popover: 220 20% 5%; /* Even darker for popovers */
-    --popover-foreground: 220 15% 75%;
+    --popover: 220 20% 5%; /* Darker for popovers */
+    --popover-foreground: 220 15% 85%;
     
-    --primary: 210 60% 65%; /* Muted, sophisticated blue for primary actions */
-    --primary-foreground: 220 20% 98%; /* White/very light gray for text on primary */
+    /* Neon-inspired Primary - Electric Indigo / Deep Purple */
+    --primary: 258 100% 65%; /* hsl(258, 100%, 65%) Electric Indigo more vibrant */
+    --primary-foreground: 258 100% 95%; /* Very light, almost white for text on primary */
     
-    --secondary: 220 15% 20%; /* Darker gray for secondary elements */
-    --secondary-foreground: 220 10% 70%;
+    --secondary: 220 15% 20%; /* Dark gray for secondary elements */
+    --secondary-foreground: 220 10% 75%;
     
-    --muted: 220 15% 15%; /* For less prominent elements */
-    --muted-foreground: 220 10% 50%; /* Lighter gray for muted text */
+    --muted: 220 15% 15%; 
+    --muted-foreground: 220 10% 60%; 
     
-    --accent: 250 60% 70%; /* A slightly more vibrant but still sophisticated purple/blue for accents */
-    --accent-foreground: 220 20% 98%;
+    /* Neon-inspired Accent - Laser Lemon / Bright Cyan */
+    --accent: 180 100% 55%; /* hsl(180, 100%, 55%) Bright Cyan */
+    /* --accent: 60 100% 70%; /* Laser Lemon variant */
+    --accent-foreground: 180 100% 10%; /* Dark contrast for text on accent */
     
-    --destructive: 0 60% 50%; /* Standard destructive red */
+    --destructive: 0 70% 55%; /* More vibrant red */
     --destructive-foreground: 0 0% 98%;
     
-    --border: 220 15% 18%; /* Subtle borders */
-    --input: 220 15% 18%; /* Input background */
-    --ring: 210 60% 55%; /* Ring color for focus states, aligned with primary */
+    --border: 220 15% 25%; /* Slightly more visible neon-ish border hint */
+    --input: 220 15% 18%; 
+    --ring: 180 100% 55%; /* Ring color aligned with accent (Cyan) */
     
-    --radius: 0.5rem; /* Slightly more rounded corners for a softer feel */
+    --radius: 0.5rem;
 
-    /* Chart colors - can be adjusted to be more muted if needed */
-    --chart-1: 210 60% 65%;
-    --chart-2: 250 60% 70%;
-    --chart-3: 180 50% 60%;
-    --chart-4: 30 60% 65%;
-    --chart-5: 300 50% 70%;
+    /* Chart colors with neon hints */
+    --chart-1: 258 100% 65%; /* Primary */
+    --chart-2: 180 100% 55%; /* Accent */
+    --chart-3: 300 80% 60%; /* Magenta/Pinkish */
+    --chart-4: 30 100% 60%;  /* Orange */
+    --chart-5: 120 100% 55%; /* Lime Green */
   }
 
   * {
@@ -53,26 +57,25 @@ body {
   html, body {
     @apply bg-background text-foreground;
     scroll-behavior: smooth;
-    cursor: none; /* Hide default system cursor for the fluid effect */
-    overflow-x: hidden; /* Prevent horizontal scroll often caused by full-width elements */
+    /* cursor: none; is now handled by FluidCursor.tsx dynamically */
+    overflow-x: hidden; 
     min-height: 100vh;
     width: 100%;
   }
   ::selection {
-    @apply bg-primary/30 text-primary-foreground; /* Softer selection */
+    @apply bg-accent/30 text-accent-foreground; 
   }
 }
 
 .font-headline {
   font-family: var(--font-space-grotesk), sans-serif;
-  font-weight: 500; /* Slightly less bold for sophistication */
+  font-weight: 500; 
 }
 
 .font-body {
   font-family: var(--font-inter), sans-serif;
 }
 
-/* Subtle shadows for a cleaner look */
 .shadow-subtle {
   box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -80,7 +83,13 @@ body {
    box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.04);
 }
 
-/* Ensure canvas for fluid simulation doesn't cause scrollbars if slightly off */
-canvas {
-  display: block; /* Removes bottom space under inline canvas */
+canvas#webgl-fluid-canvas { /* Specificity for the fluid canvas if needed */
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; 
+  z-index: 0; 
 }
