@@ -1,125 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-'use client';
-
-import type { FC } from 'react';
-import { useState, useEffect, useRef, useCallback } from 'react';
-
-const MAX_TRAIL_POINTS = 12; // Number of points in the trail
-const MAIN_CURSOR_SIZE = 56; // Increased size for the main cursor
-const TRAIL_BASE_SIZE = 48; // Base size for trail dots
-
-interface TrailPoint {
-  x: number;
-  y: number;
-  id: number;
-  hue: number;
+body {
+  font-family: var(--font-inter), sans-serif;
 }
 
-const CustomCursor: FC = () => {
-  const mainCursorRef = useRef<HTMLDivElement>(null);
-  const [mainCursorPos, setMainCursorPos] = useState({ x: 0, y: 0 });
-  const [trailPoints, setTrailPoints] = useState<TrailPoint[]>([]);
-  const [currentHue, setCurrentHue] = useState(0);
-  const animationFrameRef = useRef<number>();
-
-  const lastEventTimeRef = useRef(0);
-  const MIN_EVENT_INTERVAL = 16; // roughly 60fps
-
-  useEffect(() => {
-    const cursor = mainCursorRef.current;
-    if (cursor) {
-      cursor.style.position = 'fixed';
-      cursor.style.pointerEvents = 'none';
-      cursor.style.zIndex = '9999';
-      cursor.style.width = `${MAIN_CURSOR_SIZE}px`;
-      cursor.style.height = `${MAIN_CURSOR_SIZE}px`;
-      cursor.style.borderRadius = '50%';
-      cursor.style.transform = 'translate(-50%, -50%)';
-      // Adjusted transition for more fluidity
-      cursor.style.transition = 'transform 0.12s cubic-bezier(0.25, 1, 0.5, 1)';
-    }
-  }, []);
-
-  const handleMouseMove = useCallback((event: MouseEvent) => {
-    const now = performance.now();
-    if (now - lastEventTimeRef.current < MIN_EVENT_INTERVAL) {
-        // Skip if last event was too recent
-        return;
-    }
-    lastEventTimeRef.current = now;
-
-    setMainCursorPos({ x: event.clientX, y: event.clientY });
+@layer base {
+  :root {
+    /* Minimalist & Sophisticated Palette - Dark Theme */
+    --background: 220 20% 7%; /* Very dark, slightly cool desaturated blue */
+    --foreground: 220 15% 75%; /* Lighter gray for text, soft contrast */
     
-    const newHue = (currentHue + 0.5) % 360; // Slower hue shift for more subtle changes
-    setCurrentHue(newHue);
-
-    const newPoint: TrailPoint = { 
-      x: event.clientX, 
-      y: event.clientY, 
-      id: now, // Using performance.now for potentially more unique IDs
-      hue: newHue 
-    };
+    --card: 220 20% 10%; /* Slightly lighter than background for cards */
+    --card-foreground: 220 15% 75%;
     
-    setTrailPoints(prevPoints => [newPoint, ...prevPoints].slice(0, MAX_TRAIL_POINTS));
+    --popover: 220 20% 5%; /* Even darker for popovers */
+    --popover-foreground: 220 15% 75%;
+    
+    --primary: 210 60% 65%; /* Muted, sophisticated blue for primary actions */
+    --primary-foreground: 220 20% 98%; /* White/very light gray for text on primary */
+    
+    --secondary: 220 15% 20%; /* Darker gray for secondary elements */
+    --secondary-foreground: 220 10% 70%;
+    
+    --muted: 220 15% 15%; /* For less prominent elements */
+    --muted-foreground: 220 10% 50%; /* Lighter gray for muted text */
+    
+    --accent: 250 60% 70%; /* A slightly more vibrant but still sophisticated purple/blue for accents */
+    --accent-foreground: 220 20% 98%;
+    
+    --destructive: 0 60% 50%; /* Standard destructive red */
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 220 15% 18%; /* Subtle borders */
+    --input: 220 15% 18%; /* Input background */
+    --ring: 210 60% 55%; /* Ring color for focus states, aligned with primary */
+    
+    --radius: 0.5rem; /* Slightly more rounded corners for a softer feel */
 
-  }, [currentHue]);
+    /* Chart colors - can be adjusted to be more muted if needed */
+    --chart-1: 210 60% 65%;
+    --chart-2: 250 60% 70%;
+    --chart-3: 180 50% 60%;
+    --chart-4: 30 60% 65%;
+    --chart-5: 300 50% 70%;
+  }
 
+  * {
+    @apply border-border;
+  }
+  html, body {
+    @apply bg-background text-foreground;
+    scroll-behavior: smooth;
+    cursor: none; /* Hide default system cursor for the fluid effect */
+    overflow-x: hidden; /* Prevent horizontal scroll often caused by full-width elements */
+    min-height: 100vh;
+    width: 100%;
+  }
+  ::selection {
+    @apply bg-primary/30 text-primary-foreground; /* Softer selection */
+  }
+}
 
-  useEffect(() => {
-    const onThrottledMouseMove = (event: MouseEvent) => {
-        if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-        }
-        animationFrameRef.current = requestAnimationFrame(() => handleMouseMove(event));
-    };
+.font-headline {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 500; /* Slightly less bold for sophistication */
+}
 
-    document.addEventListener('mousemove', onThrottledMouseMove);
-    return () => {
-      document.removeEventListener('mousemove', onThrottledMouseMove);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [handleMouseMove]);
+.font-body {
+  font-family: var(--font-inter), sans-serif;
+}
 
-  useEffect(() => {
-    if (mainCursorRef.current) {
-      mainCursorRef.current.style.left = `${mainCursorPos.x}px`;
-      mainCursorRef.current.style.top = `${mainCursorPos.y}px`;
-      mainCursorRef.current.style.background = `radial-gradient(circle, hsla(${currentHue}, 85%, 75%, 0.25) 0%, hsla(${currentHue}, 85%, 75%, 0) 70%)`;
-    }
-  }, [mainCursorPos, currentHue]);
+/* Subtle shadows for a cleaner look */
+.shadow-subtle {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+}
+.shadow-subtle-md {
+   box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.04);
+}
 
-  return (
-    <>
-      <div ref={mainCursorRef} />
-      {trailPoints.map((point, index) => {
-        const progress = index / MAX_TRAIL_POINTS; // 0 for newest, 1 for oldest
-        const opacity = 0.20 * (1 - progress * 0.9); // Fades out, slightly faster
-        const scale = 1 - progress * 0.7; // Shrinks, trail dots are smaller
-        const size = TRAIL_BASE_SIZE * scale;
-
-        return (
-          <div
-            key={point.id}
-            style={{
-              position: 'fixed',
-              pointerEvents: 'none',
-              zIndex: '9998', // Below main cursor
-              left: `${point.x}px`,
-              top: `${point.y}px`,
-              width: `${size}px`,
-              height: `${size}px`,
-              borderRadius: '50%',
-              transform: 'translate(-50%, -50%)',
-              background: `radial-gradient(circle, hsla(${point.hue}, 80%, 70%, ${opacity}) 0%, hsla(${point.hue}, 80%, 70%, 0) 70%)`,
-              transition: 'opacity 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out', // Smooth healing
-            }}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-export default CustomCursor;
+/* Ensure canvas for fluid simulation doesn't cause scrollbars if slightly off */
+canvas {
+  display: block; /* Removes bottom space under inline canvas */
+}

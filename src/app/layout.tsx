@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import CustomCursor from '@/app/components/CustomCursor'; // Import the new component
+import FluidCursor from '@/app/components/FluidCursor'; // Import the new fluid cursor
 
 export const metadata: Metadata = {
   title: 'Astra Portfolio - Prasanna Patil',
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark"> {/* Assuming dark is the default/only theme now */}
+    <html lang="en" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -27,8 +27,8 @@ export default function RootLayout({
           }
         `}} />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col">
-        <CustomCursor /> {/* Add the custom cursor component */}
+      <body className="font-body antialiased min-h-screen flex flex-col bg-background text-foreground">
+        <FluidCursor /> {/* Add the fluid cursor component */}
         {children}
         <Toaster />
       </body>
