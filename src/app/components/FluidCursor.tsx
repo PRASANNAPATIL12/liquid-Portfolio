@@ -9,43 +9,43 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
-  DYE_RESOLUTION: 512,
+  DYE_RESOLUTION: 512, // Higher for desktop detail
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 0.998, // Longer lasting
-  VELOCITY_DISSIPATION: 0.999, // Longer lasting
-  PRESSURE: 0.7, // Softer pressure
+  DENSITY_DISSIPATION: 0.998, // Very persistent for desktop "globules"
+  VELOCITY_DISSIPATION: 0.999, // Very persistent
+  PRESSURE: 0.7, // Softer pressure for desktop
   PRESSURE_ITERATIONS: 20,
-  CURL: 30, // More swirling
+  CURL: 30, // More swirling for desktop
   SPLAT_RADIUS: 0.35, // Adjusted for globule feel
-  SPLAT_FORCE: 5000,
+  SPLAT_FORCE: 6000, // Force for desktop interactions
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
   BLOOM: true,
-  BLOOM_ITERATIONS: 10, // More bloom
+  BLOOM_ITERATIONS: 10,
   BLOOM_RESOLUTION: 256,
-  BLOOM_INTENSITY: 0.9, // Brighter bloom
+  BLOOM_INTENSITY: 0.9,
   BLOOM_THRESHOLD: 0.5,
   BLOOM_SOFT_KNEE: 0.7,
   SUNRAYS: true,
   SUNRAYS_RESOLUTION: 196,
   SUNRAYS_WEIGHT: 0.7,
-  RANDOM_BLAST_INTERVAL: 1200, // More frequent blasts
+  RANDOM_BLAST_INTERVAL: 1200, // Frequent random blasts for desktop
 };
 
 // Mobile Configuration: Optimized for performance, touch responsive, still fluid with random blasts
 const mobileConfig = {
   TRANSPARENT: true,
-  SIM_RESOLUTION: 64,
-  DYE_RESOLUTION: 256, // Further Reduced
-  CAPTURE_RESOLUTION: 256,
-  DENSITY_DISSIPATION: 0.97, // Slightly lower for mobile visibility
-  VELOCITY_DISSIPATION: 0.975, // Slightly lower for mobile visibility
-  PRESSURE: 0.8,
-  PRESSURE_ITERATIONS: 5, // Reduced
-  CURL: 5, // Reduced significantly
-  SPLAT_RADIUS: 0.7, // Larger splat for touch visibility
-  SPLAT_FORCE: 7000, // More impactful touch
+  SIM_RESOLUTION: 64, // Lower for mobile performance
+  DYE_RESOLUTION: 128, // Further reduced for mobile performance
+  CAPTURE_RESOLUTION: 256, // Lowered
+  DENSITY_DISSIPATION: 0.96, // Lowered for more visible & lasting touch splats
+  VELOCITY_DISSIPATION: 0.965, // Lowered for more visible & lasting touch splats
+  PRESSURE: 0.8, // Standard pressure
+  PRESSURE_ITERATIONS: 3, // Reduced for performance
+  CURL: 3, // Reduced significantly for performance
+  SPLAT_RADIUS: 0.75, // Larger splat for touch visibility
+  SPLAT_FORCE: 8000, // More impactful touch
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
@@ -60,6 +60,7 @@ const mobileConfig = {
   SUNRAYS_WEIGHT: 0,
   RANDOM_BLAST_INTERVAL: 1500, // Frequent blasts for mobile
 };
+
 
 interface FluidCanvasElement extends HTMLCanvasElement {
   fluid?: {
@@ -84,7 +85,7 @@ const FluidCursor: FC = () => {
     const currentCanvas = canvasRef.current;
     if (!currentCanvas) return;
 
-    document.body.style.cursor = 'none';
+    document.body.style.cursor = isMobile ? 'auto' : 'none'; // No custom cursor for mobile default
 
     let fluidInstance: any = null;
     const selectedConfig = isMobile ? mobileConfig : desktopConfig;
@@ -93,15 +94,12 @@ const FluidCursor: FC = () => {
       .then(module => {
         fluidInstance = module.default;
         if (currentCanvas && fluidInstance) {
-          // This is where webgl-fluid initializes and might attach event listeners
           fluidInstance(currentCanvas, selectedConfig);
-          // Add a small delay before setting simulationReady
           setTimeout(() => {
-            // Ensure component is still mounted and ref is valid
             if (canvasRef.current) {
               setSimulationReady(true);
             }
-          }, 50); // 50ms delay
+          }, 50);
         }
       })
       .catch(error => {
@@ -112,10 +110,8 @@ const FluidCursor: FC = () => {
     return () => {
       document.body.style.cursor = 'auto';
       setSimulationReady(false);
-      // When the canvas is re-keyed and unmounted, its event listeners should be garbage collected.
-      // No explicit destroy method for webgl-fluid, so re-keying is safer.
     };
-  }, [isMobile]); // isMobile dependency means this effect re-runs if isMobile changes
+  }, [isMobile]);
 
 
   // Effect for initial and random blasts
@@ -123,8 +119,6 @@ const FluidCursor: FC = () => {
     if (!simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
 
     const currentCanvas = canvasRef.current;
-    // Directly use canvasRef.current.pointer after checking its existence
-
     const { clientWidth: width, clientHeight: height } = currentCanvas;
 
     if (width === 0 || height === 0) {
@@ -132,7 +126,6 @@ const FluidCursor: FC = () => {
       return;
     }
 
-    // Initial blast
     const numInitialSplats = isMobile ? 2 : 4;
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
@@ -178,7 +171,6 @@ const FluidCursor: FC = () => {
     if (!isMobile || !simulationReady || !canvasRef.current || !canvasRef.current.pointer) {
       return;
     }
-    // Directly use canvasRef.current.pointer after checking its existence in handlers
 
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length > 0 && canvasRef.current && canvasRef.current.pointer) {
@@ -196,7 +188,6 @@ const FluidCursor: FC = () => {
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
-      // Iterate over all touches that were lifted
       for (let i = 0; i < event.changedTouches.length; i++) {
         if (canvasRef.current && canvasRef.current.pointer) {
           const touch = event.changedTouches[i];
@@ -224,8 +215,6 @@ const FluidCursor: FC = () => {
 
   return (
     <canvas
-      // Keying the canvas ensures it's re-mounted if isMobile changes,
-      // providing a fresh DOM element for webgl-fluid initialization.
       key={isMobile ? 'mobile-fluid-canvas' : 'desktop-fluid-canvas'}
       ref={canvasRef}
       id="webgl-fluid-canvas"
@@ -236,6 +225,7 @@ const FluidCursor: FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0,
+        pointerEvents: isMobile ? 'none' : 'auto', // Conditional pointer-events
       }}
     />
   );
