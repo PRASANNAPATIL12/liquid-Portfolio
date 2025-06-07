@@ -5,125 +5,165 @@ import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Base Desktop Configuration for a more persistent and richer fluid effect
+// Desktop Configuration: Richer, more persistent, and includes random blasts
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
   DYE_RESOLUTION: 512,
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 0.998,     // Very slow dissipation for color
-  VELOCITY_DISSIPATION: 0.999,    // Very slow dissipation for motion
+  DENSITY_DISSIPATION: 0.99,     // Slower dissipation for longer-lasting effect
+  VELOCITY_DISSIPATION: 0.995,   // Slower dissipation for longer-lasting motion
   PRESSURE: 0.8,
   PRESSURE_ITERATIONS: 20,
-  CURL: 30,                       // Increased for more inherent swirls
-  SPLAT_RADIUS: 0.35,             // Slightly adjusted for a good "press" feel
+  CURL: 25,                       // Increased for more inherent swirls and continuous evolution
+  SPLAT_RADIUS: 0.35,             // Adjusted for a good "press" feel
   SPLAT_FORCE: 6000,
-  COLORFUL: true,
+  COLORFUL: true,                 // Enable dynamic colors
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
   BLOOM: true,
   BLOOM_ITERATIONS: 8,
   BLOOM_RESOLUTION: 256,
-  BLOOM_INTENSITY: 0.8,
-  BLOOM_THRESHOLD: 0.6,
+  BLOOM_INTENSITY: 0.7,
+  BLOOM_THRESHOLD: 0.5,
   BLOOM_SOFT_KNEE: 0.7,
   SUNRAYS: true,
   SUNRAYS_RESOLUTION: 196,
-  SUNRAYS_WEIGHT: 1.0,            // Sunrays more prominent
+  SUNRAYS_WEIGHT: 0.8,
 };
 
-// Mobile will now use a simple CSS cursor, WebGL is disabled for performance.
-// The mobileConfig for webgl-fluid is no longer used directly for rendering.
+// Mobile Configuration: Significantly lighter to prioritize performance
+const mobileConfig = {
+  TRANSPARENT: true,
+  SIM_RESOLUTION: 64,           // Lower simulation resolution
+  DYE_RESOLUTION: 256,          // Lower dye resolution
+  CAPTURE_RESOLUTION: 256,
+  DENSITY_DISSIPATION: 0.98,    // Faster dissipation
+  VELOCITY_DISSIPATION: 0.985,   // Faster velocity dissipation
+  PRESSURE: 0.7,
+  PRESSURE_ITERATIONS: 10,      // Fewer pressure iterations
+  CURL: 15,
+  SPLAT_RADIUS: 0.5,            // Slightly larger splats for touch visibility
+  SPLAT_FORCE: 4000,
+  COLORFUL: true,
+  COLOR_UPDATE_SPEED: 15,
+  PAUSED: false,
+  BLOOM: false,                  // Bloom disabled for performance
+  BLOOM_ITERATIONS: 4,
+  BLOOM_RESOLUTION: 128,
+  BLOOM_INTENSITY: 0.5,
+  BLOOM_THRESHOLD: 0.7,
+  BLOOM_SOFT_KNEE: 0.7,
+  SUNRAYS: false,                // Sunrays disabled for performance
+  SUNRAYS_RESOLUTION: 128,
+  SUNRAYS_WEIGHT: 0.5,
+};
+
+// Extend canvas type to include the pointer property webgl-fluid adds
+interface FluidCanvasElement extends HTMLCanvasElement {
+  pointer?: {
+    down: (x: number, y: number) => void;
+    move: (x: number, y: number) => void;
+    up: (x: number, y: number) => void;
+  };
+}
 
 const FluidCursor: FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const isMobile = useIsMobile(); // This hook will return undefined initially, then boolean
-  
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [isVisible, setIsVisible] = useState(false);
+  const canvasRef = useRef<FluidCanvasElement>(null);
+  const isMobile = useIsMobile();
+  const [simulationReady, setSimulationReady] = useState(false);
 
   useEffect(() => {
     if (isMobile === undefined) return; // Wait for isMobile to be determined
 
-    if (isMobile) {
-      // Mobile: Setup simple CSS cursor
-      const handleMouseMove = (e: MouseEvent) => {
-        setCursorPos({ x: e.clientX, y: e.clientY });
-        if (!isVisible) setIsVisible(true);
-      };
-      const handleMouseLeave = () => {
-        setIsVisible(false);
-      };
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseleave', handleMouseLeave);
-      document.body.style.cursor = 'none'; // Ensure system cursor is hidden
+    const currentCanvas = canvasRef.current;
+    if (!currentCanvas) return;
 
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseleave', handleMouseLeave);
-        document.body.style.cursor = 'auto'; // Restore system cursor on unmount
-      };
+    document.body.style.cursor = 'none';
+    let fluidInstance: any = null; // To store the module if needed, though not directly used here for splats
 
-    } else {
-      // Desktop: Initialize WebGL Fluid Simulation
-      if (!canvasRef.current) return;
-      document.body.style.cursor = 'none';
+    import('webgl-fluid')
+      .then(module => {
+        fluidInstance = module.default;
+        if (currentCanvas && fluidInstance) {
+          const config = isMobile ? mobileConfig : desktopConfig;
+          // @ts-ignore webGLFluid expects a config object
+          fluidInstance(currentCanvas, config);
+          setSimulationReady(true);
+        }
+      })
+      .catch(error => {
+        console.error("Failed to load webgl-fluid:", error);
+        document.body.style.cursor = 'auto'; // Restore cursor if lib fails
+      });
 
-      import('webgl-fluid')
-        .then(module => {
-          const webGLFluid = module.default;
-          if (canvasRef.current && webGLFluid) {
-            // @ts-ignore webGLFluid expects a config object
-            webGLFluid(canvasRef.current, desktopConfig);
-          }
-        })
-        .catch(error => {
-          console.error("Failed to load webgl-fluid:", error);
-        });
-      
-      return () => {
-         document.body.style.cursor = 'auto'; 
-      }
+    return () => {
+      document.body.style.cursor = 'auto';
+      setSimulationReady(false);
+      // Cleanup: If the library provided a dispose method, it would be called here.
+      // Since it doesn't, removing the canvas or navigating away should suffice.
+    };
+  }, [isMobile]);
+
+
+  useEffect(() => {
+    if (!simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
+
+    const currentCanvas = canvasRef.current;
+    const { clientWidth: width, clientHeight: height } = currentCanvas;
+
+    // Initial "Blast"
+    const numInitialSplats = isMobile ? 2 : 4;
+    for (let i = 0; i < numInitialSplats; i++) {
+      setTimeout(() => {
+        if (currentCanvas.pointer) {
+          const randomX = width * (0.4 + Math.random() * 0.2);
+          const randomY = height * (0.4 + Math.random() * 0.2);
+          currentCanvas.pointer.move(randomX, randomY);
+          currentCanvas.pointer.down(randomX, randomY);
+           // Optionally call up after a short delay if splats are too sticky
+          setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50);
+        }
+      }, i * 100); // Stagger initial splats slightly
     }
-  }, [isMobile, isVisible]); // Re-run if isMobile changes or visibility (for mobile)
+    
+    // Random Blasts Interval
+    const randomBlastInterval = isMobile ? 5000 : 3000; // Less frequent on mobile
+    const intervalId = setInterval(() => {
+      if (currentCanvas.pointer) {
+        const randomX = Math.random() * width;
+        const randomY = Math.random() * height;
+        
+        currentCanvas.pointer.move(randomX, randomY);
+        currentCanvas.pointer.down(randomX, randomY);
+        
+        // Optional: call up after a short delay if splats are too sticky
+        // or if you want to simulate quick "taps"
+        setTimeout(() => currentCanvas.pointer?.up(randomX, randomY), 50 + Math.random() * 50);
+      }
+    }, randomBlastInterval);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [simulationReady, isMobile]);
+
 
   if (isMobile === undefined) {
     return null; // Don't render anything until we know if it's mobile or desktop
   }
 
-  if (isMobile) {
-    // Render simple CSS dot for mobile
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: cursorPos.y,
-          left: cursorPos.x,
-          width: '8px',
-          height: '8px',
-          backgroundColor: 'hsl(var(--accent))', // Use accent color
-          borderRadius: '50%',
-          transform: 'translate(-50%, -50%)',
-          pointerEvents: 'none',
-          zIndex: 9999,
-          opacity: isVisible ? 1 : 0,
-          transition: 'opacity 0.2s ease-out',
-        }}
-      />
-    );
-  }
-
-  // Render WebGL canvas for desktop
   return (
     <canvas
       ref={canvasRef}
+      id="webgl-fluid-canvas" // Added ID for potential specific styling/selection
       style={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100vw',
         height: '100vh',
-        pointerEvents: 'none',
+        pointerEvents: 'none', // Let clicks pass through to elements behind
         zIndex: 0, // Behind UI elements but visible
       }}
     />
