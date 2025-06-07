@@ -13,7 +13,7 @@ const Footer: FC = () => {
           &copy; {currentYear} Prasanna Patil. All rights reserved.
         </p>
         <p className="text-xs text-muted-foreground/70 mt-1">
-          Designed with a <span className="text-accent animate-pulse">neon</span> touch.
+          Crafted with care.
         </p>
       </div>
     </footer>

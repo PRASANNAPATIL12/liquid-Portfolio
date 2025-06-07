@@ -8,8 +8,8 @@ interface ContactLinksProps {
 
 const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => {
   const iconSize = 20;
-  const commonButtonClasses = "transition-all duration-300 ease-in-out transform hover:scale-110 hover-glow-accent";
-  const commonLinkClasses = "text-foreground hover:text-accent";
+  const commonButtonClasses = "transition-all duration-300 ease-in-out transform hover:scale-110";
+  const commonLinkClasses = "text-foreground hover:text-primary";
 
   return (
     <div className="flex items-center space-x-4">
@@ -43,7 +43,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
           variant="outline" 
           size="sm" 
           asChild 
-          className="border-accent text-accent hover:bg-accent hover:text-accent-foreground hover-glow-accent transition-all duration-300 ease-in-out"
+          className="transition-all duration-300 ease-in-out"
         >
           <a href="/Prasanna_Patil_Resume.pdf" download="Prasanna_Patil_Resume.pdf">
             <FileText size={iconSize - 4} className="mr-2" />
