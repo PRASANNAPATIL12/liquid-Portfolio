@@ -11,54 +11,54 @@ const desktopConfig = {
   SIM_RESOLUTION: 128,
   DYE_RESOLUTION: 512,
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 0.998, 
-  VELOCITY_DISSIPATION: 0.999,
+  DENSITY_DISSIPATION: 0.995, // Made slightly less extreme for better definition
+  VELOCITY_DISSIPATION: 0.998, // High for drifting
   PRESSURE: 0.7, 
   PRESSURE_ITERATIONS: 20,
-  CURL: 30, 
-  SPLAT_RADIUS: 0.6, 
-  SPLAT_FORCE: 6000, 
+  CURL: 25, // Slightly reduced for softer curls
+  SPLAT_RADIUS: 0.5, // Base radius for mouse interaction
+  SPLAT_FORCE: 5000, 
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
   BLOOM: true,
-  BLOOM_ITERATIONS: 10, 
+  BLOOM_ITERATIONS: 8, 
   BLOOM_RESOLUTION: 256,
-  BLOOM_INTENSITY: 0.9, 
-  BLOOM_THRESHOLD: 0.5, 
+  BLOOM_INTENSITY: 0.8, 
+  BLOOM_THRESHOLD: 0.6, 
   BLOOM_SOFT_KNEE: 0.7,
   SUNRAYS: true, 
   SUNRAYS_RESOLUTION: 196,
-  SUNRAYS_WEIGHT: 0.6, 
-  RANDOM_BLAST_INTERVAL: 2500, 
+  SUNRAYS_WEIGHT: 0.5, 
+  RANDOM_BLAST_INTERVAL: 2000, // More frequent random activity
 };
 
 // Mobile Configuration: Optimized for touch visibility and performance
 const mobileConfig = {
   TRANSPARENT: true,
-  SIM_RESOLUTION: 64,
-  DYE_RESOLUTION: 128,    
+  SIM_RESOLUTION: 64, // Lowered for performance
+  DYE_RESOLUTION: 256, // Balanced for visibility and performance
   CAPTURE_RESOLUTION: 256, 
-  DENSITY_DISSIPATION: 0.90, // Significantly lower for much longer lasting splats from touch
+  DENSITY_DISSIPATION: 0.90, // Lower for longer lasting splats from touch
   VELOCITY_DISSIPATION: 0.92, // Lower for longer lasting movement from touch
   PRESSURE: 0.8,            
-  PRESSURE_ITERATIONS: 3,   
-  CURL: 5,                  // Reduced curl
-  SPLAT_RADIUS: 1.0,        // Significantly Increased for better touch visibility
-  SPLAT_FORCE: 9000,       // Significantly Increased for more impact from touch
+  PRESSURE_ITERATIONS: 5, // Reduced
+  CURL: 10, // Reduced curl
+  SPLAT_RADIUS: 0.8, // Increased for better touch visibility
+  SPLAT_FORCE: 7000, // Increased for more impact from touch
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
-  BLOOM: false,             
+  BLOOM: false, // Disabled for performance      
   BLOOM_ITERATIONS: 0,
   BLOOM_RESOLUTION: 0,
   BLOOM_INTENSITY: 0,
   BLOOM_THRESHOLD: 0,
   BLOOM_SOFT_KNEE: 0,
-  SUNRAYS: false,           
+  SUNRAYS: false, // Disabled for performance    
   SUNRAYS_RESOLUTION: 0,
   SUNRAYS_WEIGHT: 0,
-  RANDOM_BLAST_INTERVAL: 1800, 
+  RANDOM_BLAST_INTERVAL: 1500, // More frequent on mobile too
 };
 
 
@@ -66,6 +66,7 @@ interface FluidCanvasElement extends HTMLCanvasElement {
   fluid?: {
     simulationPaused: boolean;
   };
+  // Ensure pointer object and its methods are typed if possible, or use 'any' carefully
   pointer?: {
     down: (x: number, y: number) => void;
     move: (x: number, y: number) => void;
@@ -79,39 +80,56 @@ const FluidCursor: FC = () => {
   const [simulationReady, setSimulationReady] = useState(false);
 
   useEffect(() => {
-    if (isMobile === undefined) return; 
+    if (isMobile === undefined) return;
 
-    const currentCanvas = canvasRef.current;
-    if (!currentCanvas) return;
+    const canvasElement = canvasRef.current;
+    if (!canvasElement) return;
 
     document.body.style.cursor = isMobile ? 'auto' : 'none';
 
-    let fluidInstance: any = null;
+    let fluidInstanceModule: any = null;
+    let animationFrameId: number | null = null;
+
     const selectedConfig = isMobile ? mobileConfig : desktopConfig;
 
     import('webgl-fluid')
       .then(module => {
-        fluidInstance = module.default;
-        if (canvasRef.current && fluidInstance) { 
-          fluidInstance(canvasRef.current, selectedConfig);
-          setTimeout(() => {
-            if (canvasRef.current) { 
-               setSimulationReady(true);
-            }
-          }, 100); 
+        fluidInstanceModule = module.default;
+        // Ensure canvasElement is still mounted and matches canvasRef.current
+        // This check helps prevent issues if the component re-renders or unmounts quickly
+        if (canvasRef.current === canvasElement && fluidInstanceModule) { 
+          fluidInstanceModule(canvasElement, selectedConfig);
+          
+          // Delay setting simulationReady using a more robust timing mechanism
+          animationFrameId = requestAnimationFrame(() => {
+            animationFrameId = requestAnimationFrame(() => { // Double RAF for extra safety post-layout/paint
+              // Check again before setting ready
+              if (canvasRef.current === canvasElement) {
+                setTimeout(() => {
+                    if (canvasRef.current === canvasElement) { // Final check
+                        setSimulationReady(true);
+                    }
+                }, 50); // Short delay after RAFs
+              }
+            });
+          });
         }
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
-        document.body.style.cursor = 'auto'; 
+        if (isMobile) document.body.style.cursor = 'auto'; // Restore cursor on mobile if lib fails
       });
 
     return () => {
-      document.body.style.cursor = 'auto';
-      setSimulationReady(false);
-      // Consider adding cleanup for fluidInstance if the library provides one
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+      document.body.style.cursor = 'auto'; // Always restore cursor on cleanup
+      setSimulationReady(false); // Crucial: reset on cleanup
+      // webgl-fluid does not provide a destroy method.
+      // Relies on canvas re-mount (due to key change) for full cleanup.
     };
-  }, [isMobile]); 
+  }, [isMobile]); // isMobile changing the key causes re-mount and thus re-run of this effect
 
 
   useEffect(() => {
@@ -126,7 +144,7 @@ const FluidCursor: FC = () => {
 
     const { clientWidth: width, clientHeight: height } = currentCanvas;
 
-    const numInitialSplats = isMobile ? 1 : 3; 
+    const numInitialSplats = isMobile ? 1 : 2; // Reduced desktop initial for less clutter
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
         if (currentCanvas.pointer && 
@@ -143,17 +161,17 @@ const FluidCursor: FC = () => {
              }
           }, 100 + Math.random() * 150);
         }
-      }, i * 200 + (isMobile ? 300 : 200)); 
+      }, i * 150 + (isMobile ? 200 : 100)); // Adjusted delays
     }
 
-    const randomBlastIntervalConfig = isMobile ? mobileConfig.RANDOM_BLAST_INTERVAL : desktopConfig.RANDOM_BLAST_INTERVAL;
+    const blastIntervalConfig = isMobile ? mobileConfig.RANDOM_BLAST_INTERVAL : desktopConfig.RANDOM_BLAST_INTERVAL;
 
     const intervalId = setInterval(() => {
       if (canvasRef.current?.pointer && 
           typeof canvasRef.current.pointer.move === 'function' &&
           typeof canvasRef.current.pointer.down === 'function' &&
           typeof canvasRef.current.pointer.up === 'function' && 
-          document.hasFocus()) { // Only blast if tab is active
+          document.hasFocus()) { 
         const { clientWidth: currentWidth, clientHeight: currentHeight } = canvasRef.current;
         if (currentWidth === 0 || currentHeight === 0) return; 
 
@@ -169,7 +187,7 @@ const FluidCursor: FC = () => {
           }
         }, 70 + Math.random() * 80);
       }
-    }, randomBlastIntervalConfig);
+    }, blastIntervalConfig);
 
     return () => {
       clearInterval(intervalId);
@@ -181,13 +199,14 @@ const FluidCursor: FC = () => {
       return;
     }
     
-    const currentCanvas = canvasRef.current;
+    const currentCanvas = canvasRef.current; // Capture for use in handlers
 
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length > 0 && 
-          currentCanvas &&
-          typeof currentCanvas.pointer?.move === 'function' &&
-          typeof currentCanvas.pointer?.down === 'function') {
+          currentCanvas && // Use captured currentCanvas
+          currentCanvas.pointer &&
+          typeof currentCanvas.pointer.move === 'function' &&
+          typeof currentCanvas.pointer.down === 'function') {
         const touch = event.touches[0];
         currentCanvas.pointer.move(touch.clientX, touch.clientY);
         currentCanvas.pointer.down(touch.clientX, touch.clientY);
@@ -196,26 +215,27 @@ const FluidCursor: FC = () => {
 
     const handleTouchMove = (event: TouchEvent) => {
       if (event.touches.length > 0 &&
-          currentCanvas &&
-          typeof currentCanvas.pointer?.move === 'function') {
+          currentCanvas && // Use captured currentCanvas
+          currentCanvas.pointer &&
+          typeof currentCanvas.pointer.move === 'function') {
         const touch = event.touches[0];
         currentCanvas.pointer.move(touch.clientX, touch.clientY);
       }
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
-      // Check changedTouches to handle the lifting of a finger
       if (event.changedTouches.length > 0 &&
-          currentCanvas &&
-          typeof currentCanvas.pointer?.up === 'function') {
-        currentCanvas.pointer.up(); // Call up() without arguments
+          currentCanvas && // Use captured currentCanvas
+          currentCanvas.pointer &&
+          typeof currentCanvas.pointer.up === 'function') {
+        currentCanvas.pointer.up(); // Correct: no arguments
       }
     };
 
     document.documentElement.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.documentElement.addEventListener('touchmove', handleTouchMove, { passive: true });
     document.documentElement.addEventListener('touchend', handleTouchEnd, { passive: true });
-    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true }); // Also handle touchcancel
+    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true });
 
     return () => {
       document.documentElement.removeEventListener('touchstart', handleTouchStart);
@@ -231,9 +251,10 @@ const FluidCursor: FC = () => {
 
   return (
     <canvas
-      key={isMobile ? 'mobile-fluid-canvas' : 'desktop-fluid-canvas'}
+      // Key forces re-mount on isMobile change, ensuring webgl-fluid gets a fresh canvas
+      key={isMobile ? 'mobile-fluid-canvas' : 'desktop-fluid-canvas'} 
       ref={canvasRef}
-      id="webgl-fluid-canvas"
+      id="webgl-fluid-canvas" // ID might not be strictly necessary if ref is primary access
       style={{
         position: 'fixed',
         top: 0,
@@ -241,7 +262,7 @@ const FluidCursor: FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0, 
-        pointerEvents: isMobile ? 'none' : 'auto', 
+        pointerEvents: isMobile ? 'none' : 'auto', // 'none' for mobile if global listeners are used
       }}
     />
   );
