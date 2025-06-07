@@ -5,19 +5,19 @@ import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-// Desktop Configuration: Persistent, soft, glowing globules
+// Desktop Configuration: Persistent, soft, glowing globules with rich effects
 const desktopConfig = {
   TRANSPARENT: true,
   SIM_RESOLUTION: 128,
   DYE_RESOLUTION: 512,
   CAPTURE_RESOLUTION: 512,
-  DENSITY_DISSIPATION: 0.998, // Longer lasting
-  VELOCITY_DISSIPATION: 0.999, // Longer lasting
+  DENSITY_DISSIPATION: 0.998, // Very long lasting
+  VELOCITY_DISSIPATION: 0.999, // Very long lasting
   PRESSURE: 0.7, // Softer pressure
   PRESSURE_ITERATIONS: 20,
   CURL: 30, // More inherent swirl
-  SPLAT_RADIUS: 0.35, // Default splat size
-  SPLAT_FORCE: 5000,
+  SPLAT_RADIUS: 0.35, // Radius of cursor splats
+  SPLAT_FORCE: 5000, // Force of cursor splats
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
@@ -32,19 +32,19 @@ const desktopConfig = {
   SUNRAYS_WEIGHT: 0.7,
 };
 
-// Mobile Configuration: Optimized for performance, still fluid with random blasts
+// Mobile Configuration: Optimized for performance, touch responsive, still fluid with random blasts
 const mobileConfig = {
   TRANSPARENT: true,
-  SIM_RESOLUTION: 64,        // Lowered
-  DYE_RESOLUTION: 128,       // Lowered further
+  SIM_RESOLUTION: 64,
+  DYE_RESOLUTION: 128,
   CAPTURE_RESOLUTION: 256,
-  DENSITY_DISSIPATION: 0.98, // Fades a bit faster
-  VELOCITY_DISSIPATION: 0.985,
+  DENSITY_DISSIPATION: 0.97, // Touches last a bit longer
+  VELOCITY_DISSIPATION: 0.975, // Touch motion lasts a bit longer
   PRESSURE: 0.8,
-  PRESSURE_ITERATIONS: 5,   // Reduced significantly
-  CURL: 5,                  // Reduced curl
-  SPLAT_RADIUS: 0.5,
-  SPLAT_FORCE: 3000,
+  PRESSURE_ITERATIONS: 5,
+  CURL: 5, 
+  SPLAT_RADIUS: 0.7, // Larger splats for more visible touch interaction
+  SPLAT_FORCE: 6000, // More forceful splats for touch interaction
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
@@ -81,11 +81,10 @@ const FluidCursor: FC = () => {
     const currentCanvas = canvasRef.current;
     if (!currentCanvas) return;
     
-    // Hide system cursor for WebGL effect on desktop, allow default on mobile initially
-    // This will be overridden by global styles for webgl-fluid-canvas if needed
-    document.body.style.cursor = isMobile ? 'auto' : 'none'; 
+    document.body.style.cursor = 'none'; 
     
     let fluidInstance: any = null;
+    // Select config based on device, but always run the simulation if possible
     const selectedConfig = isMobile ? mobileConfig : desktopConfig;
 
     import('webgl-fluid')
@@ -109,7 +108,7 @@ const FluidCursor: FC = () => {
   }, [isMobile]);
 
 
-  // Effect for initial and random blasts
+  // Effect for initial and random blasts (applies to both desktop and mobile, using their respective configs)
   useEffect(() => {
     if (!simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
 
@@ -131,10 +130,10 @@ const FluidCursor: FC = () => {
     }
     
     // Random blasts interval
-    const randomBlastInterval = isMobile ? 2500 : 1200; // More frequent on desktop
+    const randomBlastInterval = isMobile ? 1200 : 1500; 
     
     const intervalId = setInterval(() => {
-      if (currentCanvas.pointer) {
+      if (currentCanvas.pointer && document.hasFocus()) { // Only blast if window is focused
         const randomX = Math.random() * width;
         const randomY = Math.random() * height;
         
@@ -157,10 +156,8 @@ const FluidCursor: FC = () => {
     }
 
     const currentCanvas = canvasRef.current;
-    // Ensure pointer API is available before attaching listeners
     const pointerAPI = currentCanvas.pointer;
     if (!pointerAPI) return;
-
 
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length > 0) {
@@ -178,19 +175,21 @@ const FluidCursor: FC = () => {
     };
 
     const handleTouchEnd = (event: TouchEvent) => {
+      // Check changedTouches for the touch that was lifted
       if (event.changedTouches.length > 0) {
         const touch = event.changedTouches[0];
         pointerAPI.up(touch.clientX, touch.clientY);
-      } else {
-        // Fallback if no changedTouches, pass arbitrary coords or last known if stored
-        pointerAPI.up(0,0); 
+      } else if (event.touches.length === 0) { 
+        // If no touches left and no changedTouches, use a fallback
+        // This scenario is less common but good to handle
+        pointerAPI.up(0,0); // Could also use last known coordinates if stored
       }
     };
 
     document.documentElement.addEventListener('touchstart', handleTouchStart, { passive: true });
     document.documentElement.addEventListener('touchmove', handleTouchMove, { passive: true });
     document.documentElement.addEventListener('touchend', handleTouchEnd, { passive: true });
-    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+    document.documentElement.addEventListener('touchcancel', handleTouchEnd, { passive: true }); // Treat cancel like end
 
     return () => {
       document.documentElement.removeEventListener('touchstart', handleTouchStart);
@@ -216,11 +215,9 @@ const FluidCursor: FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0, 
-        // pointerEvents: 'none', // Removed to allow direct cursor/touch interaction on canvas
       }}
     />
   );
 };
 
 export default FluidCursor;
-
