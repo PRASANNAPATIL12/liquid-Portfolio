@@ -77,8 +77,8 @@ const FluidCursor: FC = () => {
             SIM_RESOLUTION: 128,
             DYE_RESOLUTION: 512, 
             CAPTURE_RESOLUTION: 512,
-            DENSITY_DISSIPATION: 0.97, // How quickly the "dye" fades
-            VELOCITY_DISSIPATION: 0.98, // How quickly movement slows down
+            DENSITY_DISSIPATION: 0.985, // How quickly the "dye" fades - increased for longer persistence
+            VELOCITY_DISSIPATION: 0.99, // How quickly movement slows down - increased for longer persistence
             PRESSURE: 0.8,
             PRESSURE_ITERATIONS: 20,
             CURL: 20, // Amount of curl noise, adds turbulence
