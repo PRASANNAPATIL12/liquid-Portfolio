@@ -83,15 +83,15 @@ const mobileConfig = {
   COLORFUL: true,
   COLOR_UPDATE_SPEED: 10,
   PAUSED: false,
-  BLOOM: true,
-  BLOOM_ITERATIONS: 4,       // Reduced
-  BLOOM_RESOLUTION: 128,     // Reduced
-  BLOOM_INTENSITY: 0.4,      // Reduced
+  BLOOM: false, // Disabled for mobile performance
+  BLOOM_ITERATIONS: 4,       
+  BLOOM_RESOLUTION: 128,     
+  BLOOM_INTENSITY: 0.4,      
   BLOOM_THRESHOLD: 0.6,
   BLOOM_SOFT_KNEE: 0.7,
-  SUNRAYS: true,
-  SUNRAYS_RESOLUTION: 96,    // Reduced
-  SUNRAYS_WEIGHT: 0.4,       // Reduced
+  SUNRAYS: false, // Disabled for mobile performance
+  SUNRAYS_RESOLUTION: 96,    
+  SUNRAYS_WEIGHT: 0.4,       
 };
 
 
@@ -120,6 +120,12 @@ const FluidCursor: FC = () => {
       return;
     }
 
+    // Determine config based on device type
+    // The useIsMobile hook returns undefined initially, so we wait until it's defined.
+    if (typeof isMobile === 'undefined') {
+      return;
+    }
+    
     const currentConfig = isMobile ? mobileConfig : desktopConfig;
 
     import('webgl-fluid')
@@ -134,7 +140,7 @@ const FluidCursor: FC = () => {
         console.error("Failed to load webgl-fluid:", error);
       });
 
-  }, [isMobile]); // Re-run effect if isMobile changes, though this usually happens once.
+  }, [isMobile]); // Re-run effect if isMobile changes.
 
   return (
     <canvas
