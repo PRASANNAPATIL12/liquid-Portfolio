@@ -51,7 +51,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
         </svg>
       </a>
       <a
-        href="mailto:prasannapatil@example.com"
+        href="mailto:pspatil77888@gmail.com"
         aria-label="Email Prasanna Patil"
         className={`${commonLinkClasses} ${commonButtonClasses}`}
       >

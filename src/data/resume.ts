@@ -29,12 +29,12 @@ export const resumeData = {
   title: "Full Stack Developer | AI Enthusiast",
   summary: "Innovative and results-driven Full Stack Developer with a passion for building scalable web applications and exploring AI technologies. Adept at leveraging modern frameworks and tools to deliver high-quality software solutions.",
   contact: {
-    email: "prasannapatil@example.com",
+    email: "pspatil77888@gmail.com",
     phone: "+1 (555) 123-4567",
     linkedin: "linkedin.com/in/prasanna-patil-66a079201",
     github: "github.com/PRASANNAPATIL12",
     twitter: "twitter.com/PspatilX",
-    location: "San Francisco, CA"
+    location: "Bangalore, India"
   },
   experience: [
     {
