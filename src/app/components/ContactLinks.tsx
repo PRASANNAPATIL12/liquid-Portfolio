@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, FileText, Twitter } from 'lucide-react';
+import { Github, Linkedin, Mail, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { FC } from 'react';
 
@@ -35,10 +35,20 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
         href="https://twitter.com/PspatilX"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Prasanna Patil's Twitter Profile"
+        aria-label="Prasanna Patil's X Profile"
         className={`${commonLinkClasses} ${commonButtonClasses}`}
       >
-        <Twitter size={iconSize} />
+        <svg
+          role="img"
+          aria-label="X logo"
+          width={iconSize}
+          height={iconSize}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.931ZM17.61 20.644h2.039L6.486 3.24H4.298Z" />
+        </svg>
       </a>
       <a
         href="mailto:prasannapatil@example.com"
