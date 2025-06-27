@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import FluidCursor from '@/app/components/FluidCursor'; // Import the new fluid cursor
 
 export const metadata: Metadata = {
-  title: 'Astra Portfolio - Prasanna Patil',
+  title: 'Portfolio - Prasanna Patil',
   description: 'Personal portfolio of Prasanna Patil, showcasing skills, experience, and projects with a sophisticated and minimalistic design.',
 };
 

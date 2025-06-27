@@ -31,8 +31,9 @@ export const resumeData = {
   contact: {
     email: "prasannapatil@example.com",
     phone: "+1 (555) 123-4567",
-    linkedin: "linkedin.com/in/prasannapatil-dev",
-    github: "github.com/PrasannaPatilDeveloper",
+    linkedin: "linkedin.com/in/prasanna-patil-66a079201",
+    github: "github.com/PRASANNAPATIL12",
+    twitter: "twitter.com/PspatilX",
     location: "San Francisco, CA"
   },
   experience: [
@@ -67,7 +68,7 @@ export const resumeData = {
       name: "AI Powered Portfolio Optimizer",
       description: "A tool that leverages GenAI to analyze and suggest improvements for portfolio content, enhancing its appeal and effectiveness.",
       technologies: ["Next.js", "TypeScript", "Genkit AI", "Tailwind CSS"],
-      link: "https://github.com/PrasannaPatilDeveloper/ai-portfolio-optimizer",
+      link: "https://github.com/PRASANNAPATIL12/ai-portfolio-optimizer",
       imageUrl: "https://placehold.co/600x400.png",
       dataAiHint: "abstract code"
     },
@@ -76,7 +77,7 @@ export const resumeData = {
       name: "E-commerce Platform",
       description: "A full-featured e-commerce website with product listings, shopping cart, user authentication, and payment gateway integration.",
       technologies: ["React", "Redux", "Node.js", "Express", "MongoDB"],
-      link: "https://github.com/PrasannaPatilDeveloper/ecommerce-platform",
+      link: "https://github.com/PRASANNAPATIL12/ecommerce-platform",
       imageUrl: "https://placehold.co/600x400.png",
       dataAiHint: "online shopping"
     },

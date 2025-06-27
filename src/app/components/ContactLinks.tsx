@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, FileText } from 'lucide-react';
+import { Github, Linkedin, Mail, FileText, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { FC } from 'react';
 
@@ -14,7 +14,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
   return (
     <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
       <a
-        href="https://github.com/PrasannaPatilDeveloper"
+        href="https://github.com/PRASANNAPATIL12"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Prasanna Patil's GitHub Profile"
@@ -23,13 +23,22 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
         <Github size={iconSize} />
       </a>
       <a
-        href="https://linkedin.com/in/prasannapatil-dev"
+        href="https://www.linkedin.com/in/prasanna-patil-66a079201/"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Prasanna Patil's LinkedIn Profile"
         className={`${commonLinkClasses} ${commonButtonClasses}`}
       >
         <Linkedin size={iconSize} />
+      </a>
+      <a
+        href="https://twitter.com/PspatilX"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Prasanna Patil's X (Twitter) Profile"
+        className={`${commonLinkClasses} ${commonButtonClasses}`}
+      >
+        <X size={iconSize} />
       </a>
       <a
         href="mailto:prasannapatil@example.com"
