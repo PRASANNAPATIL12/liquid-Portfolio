@@ -16,12 +16,12 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
     <Card className="flex flex-col bg-card/70 backdrop-blur-lg border-border/70 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1 h-full">
       {project.imageUrl && (
-        <div className="relative w-full h-48 bg-black">
+        <div className="relative w-full h-48">
           <Image 
             src={project.imageUrl} 
             alt={project.name} 
             layout="fill" 
-            objectFit="contain"
+            objectFit="cover" 
             className="transition-transform duration-500 hover:scale-105"
             data-ai-hint={project.dataAiHint || "project image"}
           />
