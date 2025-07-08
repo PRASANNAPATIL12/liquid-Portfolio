@@ -48,7 +48,7 @@ export const resumeData = {
         "Optimized AWS cloud infrastructure (EC2, S3, Lambda) through Infrastructure as Code, resulting in 15% cost reduction while maintaining 99.9% uptime.",
         "Leveraged PowerShell Core remoting (Invoke-Command, New-PSSession, WinRM) and Chocolatey package management to automate application installation and configuration across multiple remote servers—eliminating 100% of manual logins, reducing average deployment time per server by 70%.",
       ],
-      logoUrl: "https://placehold.co/50x50.png",
+      logoUrl: "https://logo.clearbit.com/verifone.com",
     },
     {
       id: "exp2",
