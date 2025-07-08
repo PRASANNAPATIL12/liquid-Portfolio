@@ -64,7 +64,11 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
           asChild 
           className="transition-all duration-300 ease-in-out"
         >
-          <a href="/Prasanna_Patil_Resume.pdf" download="Prasanna_Patil_Resume.pdf">
+          <a
+            href="https://drive.google.com/uc?export=download&id=1jK5keBpTDM-xsZ7GDsX12KFHOfyV7y3x"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <FileText size={iconSize - 4} className="mr-2" />
             Resume
           </a>
