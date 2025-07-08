@@ -85,12 +85,12 @@ export const resumeData = {
     },
     {
       id: "proj2",
-      name: "E-commerce Platform",
-      description: "A full-featured e-commerce website with product listings, shopping cart, user authentication, and payment gateway integration.",
-      technologies: ["React", "Redux", "Node.js", "Express", "MongoDB"],
-      link: "https://github.com/PRASANNAPATIL12/ecommerce-platform",
+      name: "PatilCart — E-commerce Platform",
+      description: "Architected MERN stack marketplace with JWT authentication, resulting in 30% higher user engagement and 25% lower cart abandonment rates. Applied secure Paytm payment gateway with PCI compliance and automated inventory tracking, processing 100+ test transactions with 99.8% success rate.",
+      technologies: ["React", "Node.js", "Express", "MongoDB", "JWT", "Paytm"],
+      link: "https://github.com/PRASANNAPATIL12/Flipkart-Clone-",
       imageUrl: "https://placehold.co/600x400.png",
-      dataAiHint: "online shopping"
+      dataAiHint: "ecommerce marketplace"
     },
   ] as Project[],
   skills: [
