@@ -60,7 +60,7 @@ export const resumeData = {
         "Executed Prisma ORM with transaction management, optimizing database operations by 30% and enhancing query response times by 25%.",
         "Integrated Twilio API for automated customer communications, driving 22% higher engagement and 15% growth in repeat business transactions.",
       ],
-      logoUrl: "https://logo.clearbit.com/mercuri.ai",
+      logoUrl: "https://media.licdn.com/dms/image/v2/D4D0BAQFjoWpmwLFGkQ/company-logo_200_200/company-logo_200_200/0/1731063709690/mercuricx_logo?e=1757548800&v=beta&t=ZcjpVpVS2tfc0r_FOnG_J9qZO3rZRmALkjySxriZR2M",
     },
      {
       id: "exp3",
