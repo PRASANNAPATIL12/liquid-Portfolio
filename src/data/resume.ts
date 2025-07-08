@@ -86,7 +86,7 @@ export const resumeData = {
     {
       id: "proj2",
       name: "PatilCart — E-commerce Platform",
-      description: "Architected MERN stack marketplace with JWT authentication, resulting in 30% higher user engagement and 25% lower cart abandonment rates. Applied secure Paytm payment gateway with PCI compliance and automated inventory tracking, processing 100+ test transactions with 99.8% success rate.",
+      description: "Architected a MERN stack marketplace with JWT authentication and a secure Paytm payment gateway, driving 30% higher user engagement. Features automated inventory tracking for a seamless shopping experience.",
       technologies: ["React", "Node.js", "Express", "MongoDB", "JWT", "Paytm"],
       link: "https://github.com/PRASANNAPATIL12/Flipkart-Clone-",
       imageUrl: "https://placehold.co/600x400.png",
