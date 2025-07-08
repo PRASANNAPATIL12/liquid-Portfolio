@@ -71,7 +71,6 @@ export const resumeData = {
         "Architected and deployed a responsive web application using React.js and Node.js for academic data collection, resulting in a 25% increase in data accuracy and a 30% improvement in information retrieval speed.",
         "Implemented RESTful API endpoints using Express.js and MongoDB, enabling efficient data management and reducing database query time by 40%.",
       ],
-      logoUrl: "https://placehold.co/50x50.png",
     },
   ] as Experience[],
   projects: [
