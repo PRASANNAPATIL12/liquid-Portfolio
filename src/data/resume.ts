@@ -60,7 +60,7 @@ export const resumeData = {
         "Executed Prisma ORM with transaction management, optimizing database operations by 30% and enhancing query response times by 25%.",
         "Integrated Twilio API for automated customer communications, driving 22% higher engagement and 15% growth in repeat business transactions.",
       ],
-      logoUrl: "https://placehold.co/50x50.png",
+      logoUrl: "https://logo.clearbit.com/mercuri.ai",
     },
      {
       id: "exp3",
