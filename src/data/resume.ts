@@ -1,3 +1,4 @@
+
 export interface Experience {
   id: string;
   title: string;
@@ -39,25 +40,36 @@ export const resumeData = {
   experience: [
     {
       id: "exp1",
-      title: "Senior Software Engineer",
-      company: "Tech Solutions Inc.",
-      duration: "Jan 2021 - Present",
+      title: "Information Systems Engineer Onsite",
+      company: "Verifone",
+      duration: "July 2024 - Present",
       responsibilities: [
-        "Led development of a new SaaS platform using React, Node.js, and PostgreSQL.",
-        "Integrated AI-powered features for data analysis and user personalization.",
-        "Mentored junior developers and conducted code reviews."
+        "Automated patch management for 500+ servers with a PowerShell script, reducing manual effort from 10-20 hours to a single-click task, generating CSV reports and SMTP email notifications.",
+        "Optimized AWS cloud infrastructure (EC2, S3, Lambda) through Infrastructure as Code, resulting in 15% cost reduction while maintaining 99.9% uptime.",
+        "Leveraged PowerShell Core remoting (Invoke-Command, New-PSSession, WinRM) and Chocolatey package management to automate application installation and configuration across multiple remote servers—eliminating 100% of manual logins, reducing average deployment time per server by 70%.",
       ],
       logoUrl: "https://placehold.co/50x50.png",
     },
     {
       id: "exp2",
-      title: "Full Stack Developer",
-      company: "Innovatech Ltd.",
-      duration: "Jun 2018 - Dec 2020",
+      title: "Software Engineer - Intern Onsite",
+      company: "Mercuri",
+      duration: "March 2024 - May 2024",
       responsibilities: [
-        "Developed and maintained client-facing web applications using Angular and Java Spring Boot.",
-        "Collaborated with cross-functional teams to define project requirements and deliverables.",
-        "Optimized application performance, reducing load times by 20%."
+        "Developed Node.js/Express Shopify partner application that decreased order processing latency by 20% and improved data accuracy across integration points.",
+        "Executed Prisma ORM with transaction management, optimizing database operations by 30% and enhancing query response times by 25%.",
+        "Integrated Twilio API for automated customer communications, driving 22% higher engagement and 15% growth in repeat business transactions.",
+      ],
+      logoUrl: "https://placehold.co/50x50.png",
+    },
+     {
+      id: "exp3",
+      title: "Full Stack Web Developer - Intern Hybrid",
+      company: "Kenai Technologies",
+      duration: "November 2023 - January 2024",
+      responsibilities: [
+        "Architected and deployed a responsive web application using React.js and Node.js for academic data collection, resulting in a 25% increase in data accuracy and a 30% improvement in information retrieval speed.",
+        "Implemented RESTful API endpoints using Express.js and MongoDB, enabling efficient data management and reducing database query time by 40%.",
       ],
       logoUrl: "https://placehold.co/50x50.png",
     },
