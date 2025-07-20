@@ -76,12 +76,12 @@ export const resumeData = {
   projects: [
     {
       id: "proj1",
-      name: "AI Powered Portfolio Optimizer",
-      description: "A tool that leverages GenAI to analyze and suggest improvements for portfolio content, enhancing its appeal and effectiveness.",
-      technologies: ["Next.js", "TypeScript", "Genkit AI", "Tailwind CSS"],
-      link: "https://github.com/PRASANNAPATIL12/ai-portfolio-optimizer",
+      name: "Online Wedding Invitation",
+      description: "Developed an immersive online wedding invitation accessible via QR code, featuring a video backdrop, event timeline, and gallery. The project attracted over 1,000 unique visitors, leading to a freelance service with 100% client satisfaction.",
+      technologies: ["JavaScript", "HTML5", "CSS3"],
+      link: "https://shraddhapatil.onrender.com/",
       imageUrl: "https://placehold.co/600x400.png",
-      dataAiHint: "abstract code"
+      dataAiHint: "wedding invitation"
     },
     {
       id: "proj2",
