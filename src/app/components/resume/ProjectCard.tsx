@@ -22,6 +22,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
             alt={project.name} 
             layout="fill" 
             objectFit="cover" 
+            quality={100}
             className="transition-transform duration-500 hover:scale-105"
             data-ai-hint={project.dataAiHint || "project image"}
           />
