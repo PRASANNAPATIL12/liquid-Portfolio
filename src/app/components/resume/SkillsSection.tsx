@@ -38,7 +38,7 @@ const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Object.entries(groupedSkills).map(([category, skillsInCategory]) => (
-          <Card key={category} className="bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md">
+          <Card key={category} className="animated-border-card bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md">
             <CardHeader className="flex flex-row items-center space-x-2 pb-2">
               {categoryIcons[category as Skill['category']]}
               <CardTitle className="font-headline text-lg text-primary">{category}</CardTitle>

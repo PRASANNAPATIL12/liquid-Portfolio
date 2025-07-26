@@ -91,6 +91,42 @@ canvas#webgl-fluid-canvas {
   height: 100vh;
   z-index: 0; 
 }
-    
-    
 
+/* Animated Border Comet Effect */
+@keyframes move-comet {
+  0% {
+    transform: translateX(0) translateY(-100%);
+    opacity: 0;
+  }
+  5%, 95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100vw) translateY(-100%); /* Move far off-screen */
+    opacity: 0;
+  }
+}
+
+.animated-border-card {
+  position: relative;
+  overflow: hidden; /* Important to contain the pseudo-element */
+}
+
+.animated-border-card::before {
+  content: '';
+  position: absolute;
+  width: 150px; /* Width of the comet trail */
+  height: 2px; /* Thickness of the comet */
+  top: 0;
+  left: -150px; /* Start off-screen to the left */
+  background: linear-gradient(to right, transparent, hsl(var(--primary)));
+  animation: move-comet 4s linear infinite;
+  animation-delay: var(--animation-delay, 0s); /* Allow for staggered animations */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 2px; /* Soften the edges */
+}
+
+.animated-border-card:hover::before {
+  opacity: 0.7; /* Make comet visible on hover */
+}

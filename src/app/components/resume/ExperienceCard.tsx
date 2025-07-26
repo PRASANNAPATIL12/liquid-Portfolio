@@ -11,7 +11,7 @@ interface ExperienceCardProps {
 
 const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
   return (
-    <Card className="bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1">
+    <Card className="animated-border-card bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1">
       <CardHeader className="flex flex-row items-start gap-4">
         {experience.logoUrl ? (
           <Image 
