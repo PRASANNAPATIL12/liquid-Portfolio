@@ -26,6 +26,17 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
             </h3>
           </div>
         </div>
+      ) : project.id === 'proj2' ? (
+        <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
+          <div className="text-center p-4">
+            <h3 
+              className="font-headline text-4xl text-primary/90"
+              style={{ textShadow: '0 0 10px hsl(var(--primary) / 0.6)' }}
+            >
+              PatilCart
+            </h3>
+          </div>
+        </div>
       ) : project.imageUrl && (
         <div className="relative w-full h-48">
           <Image 
