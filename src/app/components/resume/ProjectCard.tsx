@@ -15,7 +15,18 @@ interface ProjectCardProps {
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
     <Card className="animated-border-card flex flex-col bg-card/70 backdrop-blur-lg border-border/70 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1 h-full">
-      {project.imageUrl && (
+      {project.id === 'proj1' ? (
+        <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
+          <div className="text-center p-4">
+            <h3 
+              className="font-fancy text-4xl text-accent/90"
+              style={{ textShadow: '0 0 8px hsl(var(--accent) / 0.5)' }}
+            >
+              Wedding Invitation
+            </h3>
+          </div>
+        </div>
+      ) : project.imageUrl && (
         <div className="relative w-full h-48">
           <Image 
             src={project.imageUrl} 
