@@ -14,13 +14,16 @@ interface ProjectCardProps {
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Card className="glass-card flex flex-col h-full overflow-hidden">
+    <Card className="glass-card animated-border-card flex flex-col h-full overflow-hidden" style={{ '--animation-delay': `${Math.random() * 4}s` } as React.CSSProperties}>
       {project.id === 'proj1' ? (
         <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
           <div className="text-center p-4">
             <h3 
-              className="font-fancy text-4xl text-accent/90"
-              style={{ textShadow: '0 0 8px hsl(var(--accent) / 0.5)' }}
+              className="font-fancy text-4xl"
+              style={{ 
+                color: '#E6B4F5', /* A soft, elegant pink/lavender */
+                textShadow: '0 0 10px rgba(230, 180, 245, 0.6)' 
+              }}
             >
               Wedding Invitation
             </h3>
@@ -30,8 +33,11 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
           <div className="text-center p-4">
             <h3 
-              className="font-headline text-gradient text-4xl"
-              style={{ textShadow: '0 0 10px hsl(var(--primary) / 0.6)' }}
+              className="font-headline text-4xl"
+              style={{
+                color: '#64FFDA', /* A vibrant, futuristic mint */
+                textShadow: '0 0 12px rgba(100, 255, 218, 0.5)'
+              }}
             >
               PatilCart
             </h3>
