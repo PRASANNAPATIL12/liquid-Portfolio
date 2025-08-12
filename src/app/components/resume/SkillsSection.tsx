@@ -33,7 +33,7 @@ const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
 
   return (
     <section id="skills" className="py-8">
-      <h2 className="font-headline text-3xl md:text-4xl font-bold mb-8 text-center text-primary">
+      <h2 className="font-headline text-gradient text-2xl md:text-3xl font-bold mb-8 text-center">
         Skills & Expertise
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -41,15 +41,15 @@ const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
           <Card key={category} className="animated-border-card bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md">
             <CardHeader className="flex flex-row items-center space-x-2 pb-2">
               {categoryIcons[category as Skill['category']]}
-              <CardTitle className="font-headline text-lg text-primary">{category}</CardTitle>
+              <CardTitle className="font-headline text-lg text-gradient">{category}</CardTitle>
             </CardHeader>
             <CardContent className="pt-2">
               <ul className="space-y-3">
                 {skillsInCategory.map((skill) => (
                   <li key={skill.id}>
                     <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-foreground">{skill.name}</span>
-                      {skill.level && <Badge variant="outline" className="text-xs border-accent text-accent">{skill.level}%</Badge>}
+                      <span className="text-sm font-medium text-foreground font-code">{skill.name}</span>
+                      {skill.level && <Badge variant="outline" className="text-xs border-accent text-accent font-code">{skill.level}%</Badge>}
                     </div>
                     {skill.level && (
                       <Progress value={skill.level} className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-primary/70 [&>div]:to-accent/70" />

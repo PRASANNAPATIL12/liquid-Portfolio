@@ -1,3 +1,4 @@
+
 import type { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
@@ -5,10 +6,10 @@ import { ArrowDown } from 'lucide-react';
 const HeroSection: FC = () => {
   return (
     <section id="hero" className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-primary">
+      <h1 className="font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
         Prasanna Patil
       </h1>
-      <p className="font-body text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl">
+      <p className="font-body text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl">
         Full Stack Developer & AI Enthusiast | Crafting Digital Experiences with Code and Creativity
       </p>
       <div className="flex flex-col sm:flex-row gap-4 items-center">

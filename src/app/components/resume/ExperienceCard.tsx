@@ -26,14 +26,14 @@ const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
           <Briefcase className="h-12 w-12 text-primary" />
         )}
         <div>
-          <CardTitle className="font-headline text-xl text-primary">{experience.title}</CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardTitle className="font-headline text-lg text-primary">{experience.title}</CardTitle>
+          <CardDescription className="text-muted-foreground font-code">
             {experience.company} &bull; {experience.duration}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <ul className="list-disc list-inside space-y-1 text-sm text-foreground/90">
+        <ul className="list-disc list-inside space-y-2 text-sm text-foreground/90 font-light">
           {experience.responsibilities.map((resp, index) => (
             <li key={index}>{resp}</li>
           ))}

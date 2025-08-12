@@ -4,59 +4,59 @@
 @tailwind utilities;
 
 body {
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-outfit), sans-serif;
 }
 
 @layer base {
   :root {
-    /* Dark mode base with Neon Globule Accents */
-    --background: 220 20% 7%; /* Very dark charcoal/deep blue (hsl(220, 20%, 7%)) */
-    --foreground: 220 15% 85%; /* Brighter gray for text */
+    /* Main August Update Palette */
+    --background: 240 10% 4%; /* #08090b - Very Dark Gray */
+    --foreground: 240 5% 90%; /* #e3e4e6 - Light Gray for text */
     
-    --card: 220 20% 10%; /* Slightly lighter than background for cards */
-    --card-foreground: 220 15% 85%;
+    --card: 240 10% 9%; /* #141518 - Slightly lighter than background */
+    --card-foreground: 240 5% 90%;
     
-    --popover: 220 20% 5%; /* Darker for popovers */
-    --popover-foreground: 220 15% 85%;
+    --popover: 240 10% 2%; /* #040405 - Even darker for popovers */
+    --popover-foreground: 240 5% 90%;
     
-    /* Neon Primary - Cyan */
-    --primary: 180 100% 50%; /* hsl(180, 100%, 50%) - Bright Cyan */
-    --primary-foreground: 180 100% 10%; /* Dark contrast for text on primary */
+    /* Neon Primary - Electric Indigo */
+    --primary: 266 100% 50%; /* #6F00FF - Electric Indigo */
+    --primary-foreground: 266 100% 95%; /* Light text on primary */
     
-    --secondary: 220 15% 20%; /* Dark gray */
-    --secondary-foreground: 220 10% 75%;
+    --secondary: 240 10% 15%; /* #222426 */
+    --secondary-foreground: 240 5% 70%;
     
-    --muted: 220 15% 15%; 
-    --muted-foreground: 220 10% 60%; 
+    --muted: 240 10% 12%; /* #1a1c1f */
+    --muted-foreground: 240 5% 50%; 
     
-    /* Updated Accent - Light Indigo/Lavender */
-    --accent: 250 70% 75%; /* hsl(250, 70%, 75%) - Light Indigo/Lavender */
-    --accent-foreground: 250 70% 15%; /* Dark contrast for text on accent */
+    /* Neon Accent - Laser Lemon */
+    --accent: 60 100% 70%; /* #FFFF66 - Laser Lemon */
+    --accent-foreground: 60 100% 10%; /* Dark contrast for text on accent */
     
     --destructive: 0 70% 55%; /* Vibrant red */
     --destructive-foreground: 0 0% 98%;
     
-    --border: 220 15% 25%; /* Subtle border, can be infused by neon if desired */
-    --input: 220 15% 18%; 
-    --ring: 180 100% 50%; /* Ring color aligned with primary (Cyan) */
+    --border: 266 100% 50%; /* Electric Indigo for borders */
+    --input: 240 10% 15%; 
+    --ring: 60 100% 70%; /* Laser Lemon for focus rings */
     
     --radius: 0.5rem;
 
     /* Chart colors with new accent */
-    --chart-1: 180 100% 50%; /* Primary - Cyan */
-    --chart-2: 250 70% 75%; /* New Accent - Light Indigo/Lavender */
-    --chart-3: 60 100% 55%;  /* Lime/Yellow */
-    --chart-4: 258 100% 65%; /* Electric Indigo/Purple from previous */
-    --chart-5: 30 100% 60%;  /* Orange */
+    --chart-1: 266 100% 50%; /* Primary - Electric Indigo */
+    --chart-2: 60 100% 70%;  /* Accent - Laser Lemon */
+    --chart-3: 180 100% 55%; /* Cyan */
+    --chart-4: 210 100% 65%; /* Bright Blue */
+    --chart-5: 300 100% 70%; /* Magenta/Pink */
   }
 
   * {
-    @apply border-border;
+    @apply border-border/30; /* Use primary color with transparency for borders */
   }
   html, body {
     @apply bg-background text-foreground;
+    line-height: 1.6;
     scroll-behavior: smooth;
-    /* cursor: none; // System cursor is managed by FluidCursor.tsx */
     overflow-x: hidden; 
     min-height: 100vh;
     width: 100%;
@@ -64,16 +64,31 @@ body {
   ::selection {
     @apply bg-primary/30 text-primary-foreground; 
   }
+
+  h1, h2, h3, h4 {
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  }
 }
 
 .font-headline {
   font-family: var(--font-space-grotesk), sans-serif;
-  font-weight: 500; 
+  font-weight: 600; 
 }
 
 .font-body {
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-outfit), sans-serif;
+  font-weight: 400;
 }
+
+.font-code {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+}
+
 
 .shadow-subtle {
   box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);

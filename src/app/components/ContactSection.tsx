@@ -8,12 +8,12 @@ import { resumeData } from '@/data/resume';
 const ContactSection: FC = () => {
   return (
     <section id="contact" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <h2 className="font-headline text-4xl md:text-5xl font-bold mb-12 text-center text-primary">
+      <h2 className="font-headline text-gradient text-3xl md:text-4xl font-bold mb-12 text-center">
         Get In Touch
       </h2>
       <Card className="max-w-xl mx-auto bg-card/70 backdrop-blur-lg border-border/70 shadow-subtle-md p-2 sm:p-4">
         <CardHeader className="text-center">
-          <CardTitle className="font-headline text-3xl text-primary">Let's Connect</CardTitle>
+          <CardTitle className="font-headline text-gradient text-2xl">Let's Connect</CardTitle>
           <CardDescription className="text-muted-foreground">
             Feel free to reach out for collaborations, opportunities, or just a chat!
           </CardDescription>

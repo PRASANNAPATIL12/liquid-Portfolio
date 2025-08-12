@@ -30,7 +30,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
           <div className="text-center p-4">
             <h3 
-              className="font-headline text-4xl text-primary/90"
+              className="font-headline text-gradient text-4xl"
               style={{ textShadow: '0 0 10px hsl(var(--primary) / 0.6)' }}
             >
               PatilCart
@@ -51,15 +51,15 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         </div>
       )}
       <CardHeader>
-        <CardTitle className="font-headline text-xl text-accent">{project.name}</CardTitle>
-        <CardDescription className="text-muted-foreground h-20 overflow-y-auto text-sm">{project.description}</CardDescription>
+        <CardTitle className="font-headline text-lg text-gradient">{project.name}</CardTitle>
+        <CardDescription className="text-muted-foreground h-20 overflow-y-auto text-sm font-light">{project.description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="mb-2">
-          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1">Technologies:</h4>
+          <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1 font-code">Technologies:</h4>
           <div className="flex flex-wrap gap-1">
             {project.technologies.map((tech) => (
-              <Badge key={tech} variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">{tech}</Badge>
+              <Badge key={tech} variant="secondary" className="text-xs font-code bg-primary/10 text-primary border-primary/20">{tech}</Badge>
             ))}
           </div>
         </div>
