@@ -19,9 +19,9 @@ body {
     --popover: 240 10% 2%; /* #040405 - Even darker for popovers */
     --popover-foreground: 240 5% 90%;
     
-    /* Neon Primary - Electric Indigo */
-    --primary: 266 100% 50%; /* #6F00FF - Electric Indigo */
-    --primary-foreground: 266 100% 95%; /* Light text on primary */
+    /* Neon Primary - Updated to Cyan */
+    --primary: 180 100% 50%; /* #00FFFF - Cyan */
+    --primary-foreground: 180 100% 5%; /* Dark text on primary */
     
     --secondary: 240 10% 15%; /* #222426 */
     --secondary-foreground: 240 5% 70%;
@@ -36,16 +36,16 @@ body {
     --destructive: 0 70% 55%; /* Vibrant red */
     --destructive-foreground: 0 0% 98%;
     
-    --border: 266 100% 50%; /* Electric Indigo for borders */
+    --border: 180 100% 50%; /* Cyan for borders */
     --input: 240 10% 15%; 
     --ring: 60 100% 70%; /* Laser Lemon for focus rings */
     
     --radius: 1rem; /* Updated to 16px */
 
-    /* Chart colors with new accent */
-    --chart-1: 266 100% 50%; /* Primary - Electric Indigo */
+    /* Chart colors with new primary/accent */
+    --chart-1: 180 100% 50%; /* Primary - Cyan */
     --chart-2: 60 100% 70%;  /* Accent - Laser Lemon */
-    --chart-3: 180 100% 55%; /* Cyan */
+    --chart-3: 266 100% 65%; /* Indigo/Purple */
     --chart-4: 210 100% 65%; /* Bright Blue */
     --chart-5: 300 100% 70%; /* Magenta/Pink */
   }
@@ -85,6 +85,10 @@ body {
   font-family: var(--font-jetbrains-mono), monospace;
 }
 
+.font-fancy {
+  font-family: var(--font-great-vibes), cursive;
+}
+
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
 }
@@ -118,18 +122,15 @@ canvas#webgl-fluid-canvas {
   box-shadow: 0 0 20px hsla(var(--primary), 0.4), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Animated Border Comet Effect - Kept for specific cards if needed */
+/* Animated Border Comet Effect */
 @keyframes move-comet {
   0% {
-    transform: translateX(0) translateY(-100%);
-    opacity: 0;
-  }
-  5%, 95% {
-    opacity: 1;
+    transform: translateX(-150px) translateY(0);
+    opacity: 0.7;
   }
   100% {
-    transform: translateX(100vw) translateY(-100%); /* Move far off-screen */
-    opacity: 0;
+    transform: translateX(100%) translateY(0);
+    opacity: 1;
   }
 }
 
@@ -142,17 +143,19 @@ canvas#webgl-fluid-canvas {
   content: '';
   position: absolute;
   width: 150px; 
-  height: 2px;
+  height: 1px;
   top: 0;
-  left: -150px; 
+  left: 0;
   background: linear-gradient(to right, transparent, hsl(var(--primary)));
   animation: move-comet 4s linear infinite;
   animation-delay: var(--animation-delay, 0s);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   border-radius: 2px;
+  transform-origin: left center;
 }
 
 .animated-border-card:hover::before {
   opacity: 0.7;
 }
+
