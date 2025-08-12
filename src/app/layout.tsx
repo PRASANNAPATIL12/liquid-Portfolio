@@ -9,6 +9,22 @@ export const metadata: Metadata = {
   description: 'Personal portfolio of Prasanna Patil, showcasing skills, experience, and projects with a sophisticated and minimalistic design.',
 };
 
+const consoleLogStyle = [
+  'font-family: monospace',
+  'font-weight: bold',
+  'font-size: 1.2rem',
+  'color: hsl(var(--primary))',
+  'text-shadow: 2px 2px 4px rgba(0,0,0,0.5)',
+].join(';');
+
+const consoleLogMessage = `
+  %cHey, developer! Thanks for checking out my portfolio.
+  
+  Feel free to reach out if you want to connect!
+  
+  - Prasanna Patil
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,6 +47,7 @@ export default function RootLayout({
             --font-great-vibes: 'Great Vibes', cursive;
           }
         `}} />
+        <script dangerouslySetInnerHTML={{ __html: `console.log("${consoleLogMessage.replace(/\n/g, '\\n')}", "${consoleLogStyle}");` }} />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col bg-background text-foreground" suppressHydrationWarning={true}>
         <FluidCursor /> {/* Add the fluid cursor component */}
