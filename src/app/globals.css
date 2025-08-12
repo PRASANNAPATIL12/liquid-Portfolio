@@ -9,45 +9,45 @@ body {
 
 @layer base {
   :root {
-    /* Main August Update Palette */
-    --background: 240 10% 4%; /* #08090b - Very Dark Gray */
-    --foreground: 240 5% 90%; /* #e3e4e6 - Light Gray for text */
+    /* Refined Blue-Gray Monochrome Palette */
+    --background: 225 20% 5%;    /* #0A0A0F - Deep midnight blue-black */
+    --foreground: 228 17% 93%;  /* #E8E9F0 - Warm white with blue tint */
     
-    --card: 240 10% 9%; /* #141518 - Base card color */
-    --card-foreground: 240 5% 90%;
+    --card: 215 39% 39%;       /* Fallback, primary styling is in .glass-card */
+    --card-foreground: 228 17% 93%;
     
-    --popover: 240 10% 2%; /* #040405 - Even darker for popovers */
-    --popover-foreground: 240 5% 90%;
+    --popover: 225 20% 5%;
+    --popover-foreground: 228 17% 93%;
     
-    /* Neon Primary - Updated to Cyan */
-    --primary: 180 100% 50%; /* #00FFFF - Cyan */
-    --primary-foreground: 180 100% 5%; /* Dark text on primary */
+    /* Primary Accent - Refined Steel Blue */
+    --primary: 215 72% 59%;      /* #4A90E2 */
+    --primary-foreground: 228 17% 93%;
     
-    --secondary: 240 10% 15%; /* #222426 */
-    --secondary-foreground: 240 5% 70%;
+    --secondary: 225 15% 15%; /* #1F2229 */
+    --secondary-foreground: 223 23% 69%;
     
-    --muted: 240 10% 12%; /* #1a1c1f */
-    --muted-foreground: 240 5% 50%; 
+    --muted: 225 15% 15%;
+    --muted-foreground: 223 23% 69%; /* #A8B2C8 - Muted blue-gray */
     
-    /* Neon Accent - Laser Lemon */
-    --accent: 60 100% 70%; /* #FFFF66 - Laser Lemon */
-    --accent-foreground: 60 100% 10%; /* Dark contrast for text on accent */
+    /* Accent - Soft Periwinkle Blue */
+    --accent: 211 82% 74%;       /* #7BB3F0 */
+    --accent-foreground: 225 20% 5%;
     
-    --destructive: 0 70% 55%; /* Vibrant red */
+    --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 98%;
     
-    --border: 180 100% 50%; /* Cyan for borders */
-    --input: 240 10% 15%; 
-    --ring: 60 100% 70%; /* Laser Lemon for focus rings */
+    --border: 215 72% 59%;      /* Primary Accent for borders */
+    --input: 225 15% 15%; 
+    --ring: 211 82% 74%;        /* Accent for focus rings */
     
-    --radius: 1rem; /* Updated to 16px */
+    --radius: 1rem;
 
-    /* Chart colors with new primary/accent */
-    --chart-1: 180 100% 50%; /* Primary - Cyan */
-    --chart-2: 60 100% 70%;  /* Accent - Laser Lemon */
-    --chart-3: 266 100% 65%; /* Indigo/Purple */
-    --chart-4: 210 100% 65%; /* Bright Blue */
-    --chart-5: 300 100% 70%; /* Magenta/Pink */
+    /* Chart colors with new palette */
+    --chart-1: 215 72% 59%; /* Primary */
+    --chart-2: 211 82% 74%; /* Accent */
+    --chart-3: 200 70% 65%;
+    --chart-4: 220 65% 75%;
+    --chart-5: 230 75% 80%;
   }
 
   * {
@@ -94,7 +94,12 @@ body {
 }
 
 .icon-glow {
-  text-shadow: 0 0 8px hsl(var(--primary) / 0.6);
+  filter: drop-shadow(0 0 4px hsla(var(--primary), 0.4));
+  transition: all 0.3s ease;
+}
+
+.icon-glow:hover {
+  filter: drop-shadow(0 0 8px hsla(var(--primary), 0.6));
 }
 
 canvas#webgl-fluid-canvas { 
@@ -109,17 +114,19 @@ canvas#webgl-fluid-canvas {
 
 /* Updated Card Styles for Glassmorphism */
 .glass-card {
-  @apply bg-white/5 backdrop-blur-md;
-  @apply border border-primary/30;
+  background: hsla(var(--primary), 0.08);
+  @apply backdrop-blur-md;
+  border: 1px solid hsla(var(--primary), 0.25);
   @apply rounded-2xl; /* 1rem or 16px */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   @apply transition-all duration-300 ease-in-out;
 }
 
 .glass-card:hover {
-  @apply bg-white/[0.08] backdrop-blur-lg;
+  background: hsla(var(--primary), 0.12);
+  border-color: hsla(var(--primary), 0.4);
   transform: scale(1.02);
-  box-shadow: 0 0 20px hsla(var(--primary), 0.4), 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px hsla(var(--primary), 0.2), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Animated Border Comet Effect */
@@ -158,4 +165,3 @@ canvas#webgl-fluid-canvas {
 .animated-border-card:hover::before {
   opacity: 0.7;
 }
-
