@@ -11,8 +11,8 @@ interface ExperienceCardProps {
 
 const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
   return (
-    <Card className="animated-border-card bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1">
-      <CardHeader className="flex flex-row items-start gap-4">
+    <Card className="glass-card">
+      <CardHeader className="flex flex-row items-start gap-4 p-6">
         {experience.logoUrl ? (
           <Image 
             src={experience.logoUrl} 
@@ -26,14 +26,14 @@ const ExperienceCard: FC<ExperienceCardProps> = ({ experience }) => {
           <Briefcase className="h-12 w-12 text-primary" />
         )}
         <div>
-          <CardTitle className="font-headline text-lg text-primary">{experience.title}</CardTitle>
+          <CardTitle className="font-headline text-xl text-primary">{experience.title}</CardTitle>
           <CardDescription className="text-muted-foreground font-code">
             {experience.company} &bull; {experience.duration}
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
-        <ul className="list-disc list-inside space-y-2 text-sm text-foreground/90 font-light">
+      <CardContent className="p-6 pt-0">
+        <ul className="list-disc list-inside space-y-2 text-base text-foreground/90">
           {experience.responsibilities.map((resp, index) => (
             <li key={index}>{resp}</li>
           ))}

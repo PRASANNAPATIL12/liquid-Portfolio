@@ -14,7 +14,7 @@ interface ProjectCardProps {
 
 const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Card className="animated-border-card flex flex-col bg-card/70 backdrop-blur-lg border-border/70 overflow-hidden transition-all duration-300 ease-in-out hover:shadow-subtle-md transform hover:-translate-y-1 h-full">
+    <Card className="glass-card flex flex-col h-full overflow-hidden">
       {project.id === 'proj1' ? (
         <div className="relative w-full h-48 flex items-center justify-center bg-card/50 overflow-hidden">
           <div className="text-center p-4">
@@ -38,23 +38,23 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
           </div>
         </div>
       ) : project.imageUrl && (
-        <div className="relative w-full h-48">
+        <div className="relative w-full h-48 bg-black">
           <Image 
             src={project.imageUrl} 
             alt={project.name} 
             layout="fill" 
-            objectFit="cover" 
+            objectFit="contain" 
             quality={100}
-            className="transition-transform duration-500 hover:scale-105"
+            className="transition-transform duration-500 group-hover:scale-105"
             data-ai-hint={project.dataAiHint || "project image"}
           />
         </div>
       )}
-      <CardHeader>
-        <CardTitle className="font-headline text-lg text-gradient">{project.name}</CardTitle>
-        <CardDescription className="text-muted-foreground h-20 overflow-y-auto text-sm font-light">{project.description}</CardDescription>
+      <CardHeader className="p-6">
+        <CardTitle className="font-headline text-xl text-gradient">{project.name}</CardTitle>
+        <CardDescription className="text-muted-foreground h-20 overflow-y-auto text-base">{project.description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow p-6 pt-0">
         <div className="mb-2">
           <h4 className="text-xs font-semibold uppercase text-muted-foreground mb-1 font-code">Technologies:</h4>
           <div className="flex flex-wrap gap-1">
@@ -64,7 +64,7 @@ const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="p-6 pt-0">
         {project.link && (
           <Button variant="link" size="sm" asChild className="text-accent hover:text-accent/80 p-0">
             <a href={project.link} target="_blank" rel="noopener noreferrer">

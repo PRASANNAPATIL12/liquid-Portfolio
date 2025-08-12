@@ -8,17 +8,17 @@ import { resumeData } from '@/data/resume';
 const ContactSection: FC = () => {
   return (
     <section id="contact" className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-      <h2 className="font-headline text-gradient text-3xl md:text-4xl font-bold mb-12 text-center">
+      <h2 className="font-headline text-gradient text-4xl font-bold mb-12 text-center md:text-2.5xl">
         Get In Touch
       </h2>
-      <Card className="max-w-xl mx-auto bg-card/70 backdrop-blur-lg border-border/70 shadow-subtle-md p-2 sm:p-4">
-        <CardHeader className="text-center">
+      <Card className="glass-card max-w-xl mx-auto p-2 sm:p-4">
+        <CardHeader className="text-center p-6">
           <CardTitle className="font-headline text-gradient text-2xl">Let's Connect</CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardDescription className="text-muted-foreground mt-2">
             Feel free to reach out for collaborations, opportunities, or just a chat!
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 p-6 pt-0">
           <div className="flex items-center space-x-3 p-3 rounded-md hover:bg-secondary/70 transition-colors">
             <Mail className="h-6 w-6 text-accent" />
             <a href={`mailto:${resumeData.contact.email}`} className="text-foreground hover:text-primary">

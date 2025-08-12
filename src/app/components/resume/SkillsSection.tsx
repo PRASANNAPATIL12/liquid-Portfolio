@@ -12,13 +12,13 @@ interface SkillsSectionProps {
 }
 
 const categoryIcons: Record<Skill['category'], React.ReactElement | null> = {
-  'Frontend': <Palette className="h-5 w-5 text-primary" />,
-  'Backend': <Server className="h-5 w-5 text-primary" />,
-  'Database': <Database className="h-5 w-5 text-primary" />,
-  'DevOps': <Wrench className="h-5 w-5 text-primary" />,
-  'AI/ML': <Cpu className="h-5 w-5 text-primary" />,
-  'Tools': <Wrench className="h-5 w-5 text-primary" />,
-  'Languages': <Languages className="h-5 w-5 text-primary" />,
+  'Frontend': <Palette className="h-6 w-6 text-primary" />,
+  'Backend': <Server className="h-6 w-6 text-primary" />,
+  'Database': <Database className="h-6 w-6 text-primary" />,
+  'DevOps': <Wrench className="h-6 w-6 text-primary" />,
+  'AI/ML': <Cpu className="h-6 w-6 text-primary" />,
+  'Tools': <Wrench className="h-6 w-6 text-primary" />,
+  'Languages': <Languages className="h-6 w-6 text-primary" />,
 };
 
 
@@ -33,22 +33,22 @@ const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
 
   return (
     <section id="skills" className="py-8">
-      <h2 className="font-headline text-gradient text-2xl md:text-3xl font-bold mb-8 text-center">
+      <h2 className="font-headline text-gradient text-4xl font-bold mb-8 text-center md:text-2.5xl">
         Skills & Expertise
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Object.entries(groupedSkills).map(([category, skillsInCategory]) => (
-          <Card key={category} className="animated-border-card bg-card/70 backdrop-blur-lg border-border/70 transition-all duration-300 ease-in-out hover:shadow-subtle-md">
-            <CardHeader className="flex flex-row items-center space-x-2 pb-2">
+          <Card key={category} className="glass-card">
+            <CardHeader className="flex flex-row items-center space-x-3 p-6 pb-2">
               {categoryIcons[category as Skill['category']]}
-              <CardTitle className="font-headline text-lg text-gradient">{category}</CardTitle>
+              <CardTitle className="font-headline text-xl text-gradient">{category}</CardTitle>
             </CardHeader>
-            <CardContent className="pt-2">
+            <CardContent className="pt-2 p-6">
               <ul className="space-y-3">
                 {skillsInCategory.map((skill) => (
                   <li key={skill.id}>
                     <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm font-medium text-foreground font-code">{skill.name}</span>
+                      <span className="text-base font-medium text-foreground font-code">{skill.name}</span>
                       {skill.level && <Badge variant="outline" className="text-xs border-accent text-accent font-code">{skill.level}%</Badge>}
                     </div>
                     {skill.level && (

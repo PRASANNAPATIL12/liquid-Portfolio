@@ -13,7 +13,7 @@ body {
     --background: 240 10% 4%; /* #08090b - Very Dark Gray */
     --foreground: 240 5% 90%; /* #e3e4e6 - Light Gray for text */
     
-    --card: 240 10% 9%; /* #141518 - Slightly lighter than background */
+    --card: 240 10% 9%; /* #141518 - Base card color */
     --card-foreground: 240 5% 90%;
     
     --popover: 240 10% 2%; /* #040405 - Even darker for popovers */
@@ -40,7 +40,7 @@ body {
     --input: 240 10% 15%; 
     --ring: 60 100% 70%; /* Laser Lemon for focus rings */
     
-    --radius: 0.5rem;
+    --radius: 1rem; /* Updated to 16px */
 
     /* Chart colors with new accent */
     --chart-1: 266 100% 50%; /* Primary - Electric Indigo */
@@ -51,10 +51,11 @@ body {
   }
 
   * {
-    @apply border-border/30; /* Use primary color with transparency for borders */
+    @apply border-border/30;
   }
   html, body {
     @apply bg-background text-foreground;
+    font-weight: 400;
     line-height: 1.6;
     scroll-behavior: smooth;
     overflow-x: hidden; 
@@ -78,7 +79,6 @@ body {
 
 .font-body {
   font-family: var(--font-outfit), sans-serif;
-  font-weight: 400;
 }
 
 .font-code {
@@ -87,14 +87,6 @@ body {
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
-}
-
-
-.shadow-subtle {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
-}
-.shadow-subtle-md {
-   box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.04);
 }
 
 canvas#webgl-fluid-canvas { 
@@ -107,7 +99,22 @@ canvas#webgl-fluid-canvas {
   z-index: 0; 
 }
 
-/* Animated Border Comet Effect */
+/* Updated Card Styles for Glassmorphism */
+.glass-card {
+  @apply bg-white/5 backdrop-blur-md;
+  @apply border border-primary/30;
+  @apply rounded-2xl; /* 1rem or 16px */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.glass-card:hover {
+  @apply bg-white/[0.08] backdrop-blur-lg;
+  transform: scale(1.02);
+  box-shadow: 0 0 20px hsla(var(--primary), 0.4), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Animated Border Comet Effect - Kept for specific cards if needed */
 @keyframes move-comet {
   0% {
     transform: translateX(0) translateY(-100%);
@@ -124,24 +131,24 @@ canvas#webgl-fluid-canvas {
 
 .animated-border-card {
   position: relative;
-  overflow: hidden; /* Important to contain the pseudo-element */
+  overflow: hidden; 
 }
 
 .animated-border-card::before {
   content: '';
   position: absolute;
-  width: 150px; /* Width of the comet trail */
-  height: 2px; /* Thickness of the comet */
+  width: 150px; 
+  height: 2px;
   top: 0;
-  left: -150px; /* Start off-screen to the left */
+  left: -150px; 
   background: linear-gradient(to right, transparent, hsl(var(--primary)));
   animation: move-comet 4s linear infinite;
-  animation-delay: var(--animation-delay, 0s); /* Allow for staggered animations */
+  animation-delay: var(--animation-delay, 0s);
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  border-radius: 2px; /* Soften the edges */
+  border-radius: 2px;
 }
 
 .animated-border-card:hover::before {
-  opacity: 0.7; /* Make comet visible on hover */
+  opacity: 0.7;
 }
