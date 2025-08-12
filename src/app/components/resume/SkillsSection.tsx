@@ -12,13 +12,13 @@ interface SkillsSectionProps {
 }
 
 const categoryIcons: Record<Skill['category'], React.ReactElement | null> = {
-  'Frontend': <Palette className="h-6 w-6 text-primary" />,
-  'Backend': <Server className="h-6 w-6 text-primary" />,
-  'Database': <Database className="h-6 w-6 text-primary" />,
-  'DevOps': <Wrench className="h-6 w-6 text-primary" />,
-  'AI/ML': <Cpu className="h-6 w-6 text-primary" />,
-  'Tools': <Wrench className="h-6 w-6 text-primary" />,
-  'Languages': <Languages className="h-6 w-6 text-primary" />,
+  'Frontend': <Palette className="h-6 w-6 text-primary icon-glow" />,
+  'Backend': <Server className="h-6 w-6 text-primary icon-glow" />,
+  'Database': <Database className="h-6 w-6 text-primary icon-glow" />,
+  'DevOps': <Wrench className="h-6 w-6 text-primary icon-glow" />,
+  'AI/ML': <Cpu className="h-6 w-6 text-primary icon-glow" />,
+  'Tools': <Wrench className="h-6 w-6 text-primary icon-glow" />,
+  'Languages': <Languages className="h-6 w-6 text-primary icon-glow" />,
 };
 
 
@@ -33,12 +33,12 @@ const SkillsSection: FC<SkillsSectionProps> = ({ skills }) => {
 
   return (
     <section id="skills" className="py-8">
-      <h2 className="font-headline text-gradient text-4xl font-bold mb-8 text-center md:text-2.5xl">
+      <h2 className="font-headline text-gradient text-2.5xl sm:text-4xl font-bold mb-12 text-center">
         Skills & Expertise
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Object.entries(groupedSkills).map(([category, skillsInCategory]) => (
-          <Card key={category} className="glass-card">
+          <Card key={category} className="glass-card animated-border-card" style={{ '--animation-delay': `${Math.random() * 4}s` } as React.CSSProperties}>
             <CardHeader className="flex flex-row items-center space-x-3 p-6 pb-2">
               {categoryIcons[category as Skill['category']]}
               <CardTitle className="font-headline text-xl text-gradient">{category}</CardTitle>

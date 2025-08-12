@@ -9,7 +9,7 @@ const SectionDivider: FC<SectionDividerProps> = ({ className }) => {
   return (
     <div 
       className={cn(
-        "h-px w-full my-12 md:my-16 bg-border",
+        "h-px w-full max-w-4xl mx-auto my-16 md:my-24 bg-gradient-to-r from-transparent via-primary/30 to-transparent",
         className
       )}
       aria-hidden="true"

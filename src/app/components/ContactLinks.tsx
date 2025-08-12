@@ -7,18 +7,17 @@ interface ContactLinksProps {
 }
 
 const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => {
-  const iconSize = 20;
-  const commonButtonClasses = "transition-all duration-300 ease-in-out transform hover:scale-110";
-  const commonLinkClasses = "text-foreground hover:text-primary";
+  const iconSize = 24;
+  const commonIconClasses = "text-primary icon-glow transition-all duration-300 ease-in-out transform hover:scale-125 hover:text-accent";
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+    <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
       <a
         href="https://github.com/PRASANNAPATIL12"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Prasanna Patil's GitHub Profile"
-        className={`${commonLinkClasses} ${commonButtonClasses}`}
+        className={commonIconClasses}
       >
         <Github size={iconSize} />
       </a>
@@ -27,7 +26,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Prasanna Patil's LinkedIn Profile"
-        className={`${commonLinkClasses} ${commonButtonClasses}`}
+        className={commonIconClasses}
       >
         <Linkedin size={iconSize} />
       </a>
@@ -36,7 +35,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Prasanna Patil's X Profile"
-        className={`${commonLinkClasses} ${commonButtonClasses}`}
+        className={commonIconClasses}
       >
         <svg
           role="img"
@@ -53,7 +52,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
       <a
         href="mailto:pspatil77888@gmail.com"
         aria-label="Email Prasanna Patil"
-        className={`${commonLinkClasses} ${commonButtonClasses}`}
+        className={commonIconClasses}
       >
         <Mail size={iconSize} />
       </a>
@@ -69,7 +68,7 @@ const ContactLinks: FC<ContactLinksProps> = ({ showDownloadResume = false }) => 
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FileText size={iconSize - 4} className="mr-2" />
+            <FileText size={16} className="mr-2" />
             Resume
           </a>
         </Button>
