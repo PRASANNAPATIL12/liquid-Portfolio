@@ -1,6 +1,7 @@
 'use client';
 
 import type { FC } from 'react';
+import './WalkingCharacter.css';
 
 const WalkingCharacter: FC = () => {
   return (
@@ -13,16 +14,23 @@ const WalkingCharacter: FC = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* Body */}
-          <line x1="25" y1="20" x2="25" y2="50" stroke="hsl(var(--primary))" strokeWidth="2" />
           {/* Head */}
-          <circle cx="25" cy="15" r="5" fill="hsl(var(--primary))" />
+          <g className="head">
+            <path d="M25 18C27.7614 18 30 15.7614 30 13C30 10.2386 27.7614 8 25 8C22.2386 8 20 10.2386 20 13C20 15.7614 22.2386 18 25 18Z" stroke="hsl(var(--primary))" strokeWidth="1.5"/>
+            <path d="M25 18V25" stroke="hsl(var(--primary))" strokeWidth="1.5"/>
+          </g>
+          {/* Body */}
+          <line x1="25" y1="25" x2="25" y2="45" stroke="hsl(var(--primary))" strokeWidth="1.5" />
           {/* Legs */}
-          <line className="leg1" x1="25" y1="50" x2="15" y2="65" stroke="hsl(var(--primary))" strokeWidth="2" />
-          <line className="leg2" x1="25" y1="50" x2="35" y2="65" stroke="hsl(var(--primary))" strokeWidth="2" />
+          <g className="legs">
+            <path className="leg1" d="M25 45L18 58L15 65" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
+            <path className="leg2" d="M25 45L32 58L35 65" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
+          </g>
           {/* Arms */}
-          <line className="arm1" x1="25" y1="35" x2="15" y2="45" stroke="hsl(var(--primary))" strokeWidth="2" />
-          <line className="arm2" x1="25" y1="35" x2="35" y2="45" stroke="hsl(var(--primary))" strokeWidth="2" />
+          <g className="arms">
+            <path className="arm1" d="M25 32L17 40" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
+            <path className="arm2" d="M25 32L33 40" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeLinecap="round"/>
+          </g>
         </svg>
       </div>
     </div>

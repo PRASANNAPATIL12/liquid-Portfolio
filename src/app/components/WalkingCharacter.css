@@ -4,8 +4,8 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 70px; /* Adjust height based on character size */
-  animation: walk-across-screen 20s linear infinite;
+  height: 65px; /* Adjusted to fit character on the line */
+  animation: walk-across-screen 25s linear infinite;
   transform: translateX(-50px); /* Start off-screen */
 }
 
@@ -13,7 +13,7 @@
   width: 50px;
   height: 70px;
   position: absolute;
-  bottom: 0;
+  bottom: -5px; /* Position character to walk ON the line */
 }
 
 @keyframes walk-across-screen {
@@ -25,32 +25,34 @@
   }
 }
 
-/* Leg Animation */
+/* Smoother Leg Animation */
 @keyframes walk {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0% { transform: rotate(-25deg); }
+  50% { transform: rotate(25deg); }
+  100% { transform: rotate(-25deg); }
 }
 
 .leg1 {
-  animation: walk 1s infinite;
-  transform-origin: top center;
+  animation: walk 1.5s ease-in-out infinite;
+  transform-origin: 25px 45px;
 }
 .leg2 {
-  animation: walk 1s infinite reverse;
-  transform-origin: top center;
+  animation: walk 1.5s ease-in-out infinite reverse;
+  transform-origin: 25px 45px;
 }
 
-/* Arm Animation */
+/* Smoother Arm Animation */
 @keyframes swing {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(15deg); }
+  0% { transform: rotate(20deg); }
+  50% { transform: rotate(-20deg); }
+  100% { transform: rotate(20deg); }
 }
 
 .arm1 {
-  animation: swing 1s infinite reverse;
-  transform-origin: top center;
+  animation: swing 1.5s ease-in-out infinite;
+  transform-origin: 25px 32px;
 }
 .arm2 {
-  animation: swing 1s infinite;
-  transform-origin: top center;
+  animation: swing 1.5s ease-in-out infinite reverse;
+  transform-origin: 25px 32px;
 }
