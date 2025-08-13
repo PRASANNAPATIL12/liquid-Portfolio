@@ -66,7 +66,6 @@ interface FluidCanvasElement extends HTMLCanvasElement {
   fluid?: {
     simulationPaused: boolean;
   };
-  // Ensure pointer object and its methods are typed if possible, or use 'any' carefully
   pointer?: {
     down: (x: number, y: number) => void;
     move: (x: number, y: number) => void;
@@ -95,21 +94,17 @@ const FluidCursor: FC = () => {
     import('webgl-fluid')
       .then(module => {
         fluidInstanceModule = module.default;
-        // Ensure canvasElement is still mounted and matches canvasRef.current
-        // This check helps prevent issues if the component re-renders or unmounts quickly
         if (canvasRef.current === canvasElement && fluidInstanceModule) { 
           fluidInstanceModule(canvasElement, selectedConfig);
           
-          // Delay setting simulationReady using a more robust timing mechanism
           animationFrameId = requestAnimationFrame(() => {
-            animationFrameId = requestAnimationFrame(() => { // Double RAF for extra safety post-layout/paint
-              // Check again before setting ready
+            animationFrameId = requestAnimationFrame(() => {
               if (canvasRef.current === canvasElement) {
                 setTimeout(() => {
-                    if (canvasRef.current === canvasElement) { // Final check
+                    if (canvasRef.current === canvasElement) {
                         setSimulationReady(true);
                     }
-                }, 50); // Short delay after RAFs
+                }, 50); 
               }
             });
           });
@@ -117,19 +112,17 @@ const FluidCursor: FC = () => {
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
-        if (isMobile) document.body.style.cursor = 'auto'; // Restore cursor on mobile if lib fails
+        if (isMobile) document.body.style.cursor = 'auto';
       });
 
     return () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
-      document.body.style.cursor = 'auto'; // Always restore cursor on cleanup
-      setSimulationReady(false); // Crucial: reset on cleanup
-      // webgl-fluid does not provide a destroy method.
-      // Relies on canvas re-mount (due to key change) for full cleanup.
+      document.body.style.cursor = 'auto';
+      setSimulationReady(false); 
     };
-  }, [isMobile]); // isMobile changing the key causes re-mount and thus re-run of this effect
+  }, [isMobile]);
 
 
   useEffect(() => {
@@ -144,7 +137,7 @@ const FluidCursor: FC = () => {
 
     const { clientWidth: width, clientHeight: height } = currentCanvas;
 
-    const numInitialSplats = isMobile ? 1 : 2; // Reduced desktop initial for less clutter
+    const numInitialSplats = isMobile ? 1 : 2; 
     for (let i = 0; i < numInitialSplats; i++) {
       setTimeout(() => {
         if (currentCanvas.pointer && 
@@ -161,7 +154,7 @@ const FluidCursor: FC = () => {
              }
           }, 100 + Math.random() * 150);
         }
-      }, i * 150 + (isMobile ? 200 : 100)); // Adjusted delays
+      }, i * 150 + (isMobile ? 200 : 100));
     }
 
     const blastIntervalConfig = isMobile ? mobileConfig.RANDOM_BLAST_INTERVAL : desktopConfig.RANDOM_BLAST_INTERVAL;
@@ -199,12 +192,11 @@ const FluidCursor: FC = () => {
       return;
     }
     
-    const currentCanvas = canvasRef.current; // Capture for use in handlers
+    const currentCanvas = canvasRef.current;
 
     const handleTouchStart = (event: TouchEvent) => {
       if (event.touches.length > 0 && 
-          currentCanvas && // Use captured currentCanvas
-          currentCanvas.pointer &&
+          currentCanvas?.pointer &&
           typeof currentCanvas.pointer.move === 'function' &&
           typeof currentCanvas.pointer.down === 'function') {
         const touch = event.touches[0];
@@ -215,20 +207,17 @@ const FluidCursor: FC = () => {
 
     const handleTouchMove = (event: TouchEvent) => {
       if (event.touches.length > 0 &&
-          currentCanvas && // Use captured currentCanvas
-          currentCanvas.pointer &&
+          currentCanvas?.pointer &&
           typeof currentCanvas.pointer.move === 'function') {
         const touch = event.touches[0];
         currentCanvas.pointer.move(touch.clientX, touch.clientY);
       }
     };
 
-    const handleTouchEnd = (event: TouchEvent) => {
-      if (event.changedTouches.length > 0 &&
-          currentCanvas && // Use captured currentCanvas
-          currentCanvas.pointer &&
+    const handleTouchEnd = () => {
+      if (currentCanvas?.pointer &&
           typeof currentCanvas.pointer.up === 'function') {
-        currentCanvas.pointer.up(); // Correct: no arguments
+        currentCanvas.pointer.up();
       }
     };
 
@@ -251,10 +240,9 @@ const FluidCursor: FC = () => {
 
   return (
     <canvas
-      // Key forces re-mount on isMobile change, ensuring webgl-fluid gets a fresh canvas
       key={isMobile ? 'mobile-fluid-canvas' : 'desktop-fluid-canvas'} 
       ref={canvasRef}
-      id="webgl-fluid-canvas" // ID might not be strictly necessary if ref is primary access
+      id="webgl-fluid-canvas"
       style={{
         position: 'fixed',
         top: 0,
@@ -262,7 +250,7 @@ const FluidCursor: FC = () => {
         width: '100vw',
         height: '100vh',
         zIndex: 0, 
-        pointerEvents: isMobile ? 'none' : 'auto', // 'none' for mobile if global listeners are used
+        pointerEvents: isMobile ? 'none' : 'auto',
       }}
     />
   );
