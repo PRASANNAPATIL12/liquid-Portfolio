@@ -9,8 +9,8 @@ const HeroSection: FC = () => {
     <section id="hero" className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
       <TextAnimation 
         text="Prasanna Patil"
-        className="font-headline text-gradient text-4xl font-bold mb-4 uppercase"
-        style={{ letterSpacing: '4px' }}
+        className="font-headline text-2.5xl sm:text-4xl font-bold mb-4"
+        style={{ letterSpacing: '3px' }}
       />
       <p className="font-body text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl">
         Full Stack Developer & AI Enthusiast | Crafting Digital Experiences with Code and Creativity
