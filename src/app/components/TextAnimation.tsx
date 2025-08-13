@@ -18,31 +18,27 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
       // Wrap every letter in a span
       textWrapper.innerHTML = text.replace(
         /\S/g,
-        "<span class='letter' style='display:inline-block;'>$&</span>"
+        "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
       );
 
-      // Create the anime.js timeline
-      const timeline = anime.timeline({ loop: true });
-      timeline
-        .add({
-          targets: textWrapper.querySelectorAll('.letter'),
-          opacity: [0, 1],
-          easing: 'easeInOutQuad',
-          duration: 2250, // Slower, more graceful fade-in
-          delay: (el, i) => 150 * (i + 1), // Increased stagger delay for a more deliberate effect
-        })
-        .add({
-          targets: textWrapper,
-          opacity: 0,
-          duration: 1000,
-          easing: 'easeOutExpo',
-          delay: 1000, // Delay before fading out
-        });
+      // Create the anime.js timeline for a one-time entrance animation
+      const timeline = anime.timeline({
+        easing: 'easeOutExpo',
+      });
+
+      timeline.add({
+        targets: textWrapper.querySelectorAll('.letter'),
+        opacity: [0, 1],
+        translateY: ['1.1em', 0],
+        translateX: ['0.5em', 0],
+        scale: [0.2, 1],
+        duration: 1500, // Duration for each letter's animation
+        delay: anime.stagger(100), // Stagger the start time of each letter
+      });
 
       return () => {
         // Stop the animation when the component unmounts
         timeline.pause();
-        // remove all anime instances from the element
         anime.remove(textWrapper);
         anime.remove(textWrapper.querySelectorAll('.letter'));
       };
