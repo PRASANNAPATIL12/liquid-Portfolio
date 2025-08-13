@@ -15,34 +15,17 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
   useEffect(() => {
     const textWrapper = textWrapperRef.current;
     if (textWrapper) {
-      // Ensure the element is empty before adding new spans
-      textWrapper.innerHTML = '';
-      
       // Wrap each letter in a span
-      text.split('').forEach(letter => {
-        const span = document.createElement('span');
-        span.textContent = letter;
-        span.className = 'letter';
-        if (letter.trim() === '') {
-          // Add a non-breaking space for whitespace to maintain layout
-          span.innerHTML = '&nbsp;'; 
-        }
-        span.style.display = 'inline-block';
-        span.style.opacity = '0'; // Start with opacity 0
-        textWrapper.appendChild(span);
-      });
+      textWrapper.innerHTML = text.replace(/\S/g, "<span class='letter'>$&</span>");
 
       // Animation timeline
-      anime.timeline({ loop: false })
+      anime.timeline({ loop: false }) // Set loop to false for a one-time animation
         .add({
           targets: textWrapper.querySelectorAll('.letter'),
           opacity: [0, 1],
-          translateY: ['1.1em', 0],
-          translateX: ['0.5em', 0],
-          scale: [0.2, 1],
-          duration: 1500,
-          delay: anime.stagger(100),
-          easing: 'easeOutExpo',
+          easing: "easeInOutQuad",
+          duration: 2250, // Slower duration for a more premium feel
+          delay: anime.stagger(150), // Stagger the delay for each letter
         });
     }
   }, [text]);
