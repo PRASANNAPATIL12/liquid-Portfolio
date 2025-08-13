@@ -1,85 +1,56 @@
 /* Walking Character Animation */
-.walking-character-container {
-  position: absolute;
-  bottom: 0; /* Align with the bottom of the footer */
-  left: 0;
-  width: 100%;
-  height: 70px; /* Height of the character */
-  pointer-events: none;
-  overflow: hidden; /* Hide parts of character outside the container */
-}
-
 .character-path {
   position: absolute;
-  bottom: 0; /* Start the character path at the very bottom */
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  animation: walk-across-screen 25s linear infinite;
-  transform: translateX(-70px); /* Start off-screen */
+  height: 70px; /* Adjust height based on character size */
+  animation: walk-across-screen 20s linear infinite;
+  transform: translateX(-50px); /* Start off-screen */
 }
 
-/* The character SVG container */
 .character {
   width: 50px;
   height: 70px;
   position: absolute;
-  bottom: 1px; /* Place character just on top of the line */
+  bottom: 0;
 }
 
 @keyframes walk-across-screen {
   0% {
-    transform: translateX(-70px); /* Start off-screen left */
+    transform: translateX(-50px);
   }
   100% {
-    transform: translateX(100vw); /* End off-screen right */
+    transform: translateX(100vw);
   }
 }
 
 /* Leg Animation */
-@keyframes walk-legs {
-  0% { transform: rotate(-25deg); }
-  25% { transform: rotate(25deg); }
-  50% { transform: rotate(25deg); }
-  75% { transform: rotate(-25deg); }
-  100% { transform: rotate(-25deg); }
+@keyframes walk {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 .leg1 {
-  animation: walk-legs 1.5s ease-in-out infinite;
+  animation: walk 1s infinite;
   transform-origin: top center;
-  animation-delay: -0.75s; /* Offset animation */
 }
 .leg2 {
-  animation: walk-legs 1.5s ease-in-out infinite;
+  animation: walk 1s infinite reverse;
   transform-origin: top center;
 }
 
 /* Arm Animation */
-@keyframes swing-arms {
-  0% { transform: rotate(20deg); }
-  50% { transform: rotate(-20deg); }
-  100% { transform: rotate(20deg); }
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
 }
 
 .arm1 {
-  animation: swing-arms 1.5s ease-in-out infinite;
-  transform-origin: 25px 35px; /* Pivot from the shoulder */
+  animation: swing 1s infinite reverse;
+  transform-origin: top center;
 }
 .arm2 {
-  animation: swing-arms 1.5s ease-in-out infinite;
-  transform-origin: 25px 35px; /* Pivot from the shoulder */
-  animation-delay: -0.75s;
-}
-
-/* Add the thin line for the character to walk on */
-.footer-line {
-  content: '';
-  position: absolute;
-  bottom: 1px; /* Position it where the character's feet are */
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: hsl(var(--primary) / 0.5);
-  box-shadow: 0 0 4px hsl(var(--primary) / 0.3);
+  animation: swing 1s infinite;
+  transform-origin: top center;
 }
