@@ -1,7 +1,9 @@
+
 'use client';
 
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useAnimation } from '@/context/AnimationContext';
 
 interface TextAnimationProps {
   text: string;
@@ -10,8 +12,10 @@ interface TextAnimationProps {
 }
 
 const TextAnimation: React.FC<TextAnimationProps> = ({ text, className, style }) => {
+  const { isAnimationReady } = useAnimation();
+
   return (
-    <h1 className={cn('animated-text-container', className)} style={style}>
+    <h1 className={cn('animated-text-container', className, { 'animate-now': isAnimationReady })} style={style}>
       {text.split('').map((char, index) => (
         <span
           key={index}

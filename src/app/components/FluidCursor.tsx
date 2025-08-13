@@ -4,6 +4,7 @@
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useAnimation } from '@/context/AnimationContext';
 
 // Desktop Configuration: Globule-like, persistent, soft, glowing, drifting
 const desktopConfig = {
@@ -77,6 +78,7 @@ const FluidCursor: FC = () => {
   const canvasRef = useRef<FluidCanvasElement>(null);
   const isMobile = useIsMobile();
   const [simulationReady, setSimulationReady] = useState(false);
+  const { setAnimationReady } = useAnimation();
 
   useEffect(() => {
     if (isMobile === undefined) return;
@@ -103,6 +105,7 @@ const FluidCursor: FC = () => {
                 setTimeout(() => {
                     if (canvasRef.current === canvasElement) {
                         setSimulationReady(true);
+                        setAnimationReady(true); // Signal that animation can start
                     }
                 }, 50); 
               }
@@ -112,6 +115,7 @@ const FluidCursor: FC = () => {
       })
       .catch(error => {
         console.error("Failed to load webgl-fluid:", error);
+        setAnimationReady(true); // Still allow other animations to run on failure
         if (isMobile) document.body.style.cursor = 'auto';
       });
 
@@ -120,8 +124,10 @@ const FluidCursor: FC = () => {
         cancelAnimationFrame(animationFrameId);
       }
       document.body.style.cursor = 'auto';
-      setSimulationReady(false); 
+      setSimulationReady(false);
+      setAnimationReady(false);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
 
 
@@ -210,7 +216,9 @@ const FluidCursor: FC = () => {
           currentCanvas?.pointer &&
           typeof currentCanvas.pointer.move === 'function') {
         const touch = event.touches[0];
-        currentCanvas.pointer.move(touch.clientX, touch.clientY);
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+        currentCanvas.pointer.move(touchX, touchY);
       }
     };
 

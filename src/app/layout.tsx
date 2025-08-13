@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import FluidCursor from '@/app/components/FluidCursor'; // Import the new fluid cursor
+import { AnimationProvider } from '@/context/AnimationContext';
 
 export const metadata: Metadata = {
   title: 'Portfolio - Prasanna Patil',
@@ -50,8 +51,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `console.log("${consoleLogMessage.replace(/\n/g, '\\n')}", "${consoleLogStyle}");` }} />
       </head>
       <body className="font-body antialiased min-h-screen flex flex-col bg-background text-foreground" suppressHydrationWarning={true}>
-        <FluidCursor /> {/* Add the fluid cursor component */}
-        {children}
+        <AnimationProvider>
+          <FluidCursor /> {/* Add the fluid cursor component */}
+          {children}
+        </AnimationProvider>
         <Toaster />
       </body>
     </html>
