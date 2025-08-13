@@ -1,0 +1,89 @@
+/* Walking Character Animation */
+.walking-character-container {
+  position: absolute;
+  bottom: 100px; /* Position it above the footer text */
+  left: 0;
+  width: 100%;
+  height: 70px; /* Height of the character */
+  pointer-events: none;
+}
+
+.character-path {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: walk-across-screen 25s linear infinite;
+  transform: translateX(-100px); /* Start off-screen */
+}
+
+/* The character SVG container */
+.character {
+  width: 50px;
+  height: 70px;
+}
+
+@keyframes walk-across-screen {
+  0% {
+    transform: translateX(-100px); /* Start off-screen left */
+  }
+  100% {
+    transform: translateX(100vw); /* End off-screen right */
+  }
+}
+
+/* Leg Animation */
+@keyframes walk-legs {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(-5px) rotate(20deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-20deg);
+  }
+}
+
+.leg1 {
+  animation: walk-legs 1s ease-in-out infinite;
+  transform-origin: top center;
+}
+.leg2 {
+  animation: walk-legs 1s ease-in-out infinite;
+  animation-delay: -0.5s; /* Offset animation for the other leg */
+  transform-origin: top center;
+}
+
+/* Arm Animation */
+@keyframes swing-arms {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+.arm1 {
+    animation: swing-arms 1s ease-in-out infinite;
+    transform-origin: top center;
+    animation-delay: -0.5s; /* Sync with opposite leg */
+}
+.arm2 {
+    animation: swing-arms 1s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+/* Add the thin line for the character to walk on */
+.walking-character-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: hsl(var(--primary) / 0.5);
+  box-shadow: 0 0 4px hsl(var(--primary) / 0.3);
+}
