@@ -15,33 +15,24 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
   useEffect(() => {
     const textWrapper = textWrapperRef.current;
     if (textWrapper) {
-      // Wrap every letter in a span
-      textWrapper.innerHTML = text.replace(
-        /\S/g,
-        "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
-      );
+      // Only run if the wrapper is empty to prevent re-running on hot reloads
+      if (textWrapper.innerHTML.trim() === text) {
+        textWrapper.innerHTML = text.replace(
+          /\S/g,
+          "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
+        );
 
-      // Create the anime.js timeline for a one-time entrance animation
-      const timeline = anime.timeline({
-        easing: 'easeOutExpo',
-      });
-
-      timeline.add({
-        targets: textWrapper.querySelectorAll('.letter'),
-        opacity: [0, 1],
-        translateY: ['1.1em', 0],
-        translateX: ['0.5em', 0],
-        scale: [0.2, 1],
-        duration: 1500, // Duration for each letter's animation
-        delay: anime.stagger(100), // Stagger the start time of each letter
-      });
-
-      return () => {
-        // Stop the animation when the component unmounts
-        timeline.pause();
-        anime.remove(textWrapper);
-        anime.remove(textWrapper.querySelectorAll('.letter'));
-      };
+        anime({
+          targets: textWrapper.querySelectorAll('.letter'),
+          opacity: [0, 1],
+          translateY: ['1.1em', 0],
+          translateX: ['0.5em', 0],
+          scale: [0.2, 1],
+          duration: 1500,
+          delay: anime.stagger(100),
+          easing: 'easeOutExpo',
+        });
+      }
     }
   }, [text]);
 
