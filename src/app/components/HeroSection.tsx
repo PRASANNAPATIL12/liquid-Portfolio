@@ -2,13 +2,15 @@
 import type { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowDown } from 'lucide-react';
+import TextAnimation from './TextAnimation';
 
 const HeroSection: FC = () => {
   return (
     <section id="hero" className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      <h1 className="font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-        Prasanna Patil
-      </h1>
+      <TextAnimation 
+        text="Prasanna Patil" 
+        className="font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
+      />
       <p className="font-body text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl">
         Full Stack Developer & AI Enthusiast | Crafting Digital Experiences with Code and Creativity
       </p>
