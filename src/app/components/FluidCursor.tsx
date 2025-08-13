@@ -126,7 +126,7 @@ const FluidCursor: FC = () => {
 
 
   useEffect(() => {
-    if (!simulationReady || !canvasRef.current || !canvasRef.current.pointer) return;
+    if (!simulationReady || !canvasRef.current) return;
 
     const currentCanvas = canvasRef.current;
     
