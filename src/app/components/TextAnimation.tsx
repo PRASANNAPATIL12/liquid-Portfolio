@@ -28,15 +28,15 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
           targets: textWrapper.querySelectorAll('.letter'),
           opacity: [0, 1],
           easing: 'easeInOutQuad',
-          duration: 1500, // Slightly slower for a more graceful effect
-          delay: (el, i) => 120 * (i + 1), // Stagger delay
+          duration: 2250, // Slower, more graceful fade-in
+          delay: (el, i) => 150 * (i + 1), // Increased stagger delay for a more deliberate effect
         })
         .add({
           targets: textWrapper,
           opacity: 0,
           duration: 1000,
           easing: 'easeOutExpo',
-          delay: 1500, // Wait a bit longer before fading out
+          delay: 1000, // Delay before fading out
         });
 
       return () => {
@@ -50,7 +50,7 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
   }, [text]);
 
   return (
-    <h1 ref={textWrapperRef} className={cn(className)}>
+    <h1 ref={textWrapperRef} className={cn("font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4", className)}>
       {text}
     </h1>
   );
