@@ -165,3 +165,25 @@ canvas#webgl-fluid-canvas {
 .animated-border-card:hover::before {
   opacity: 0.7;
 }
+
+/* CSS-based Moving Letters Animation */
+@keyframes letter-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animated-text-container {
+  /* This class is mainly a wrapper, styling is on the letters */
+}
+
+.animated-letter {
+  display: inline-block;
+  opacity: 0; /* Start hidden */
+  animation: letter-animation 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Use 'forwards' to keep the final state */
+}

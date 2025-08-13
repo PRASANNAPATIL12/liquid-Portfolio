@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import React from 'react';
 import { cn } from '@/lib/utils';
 
 interface TextAnimationProps {
@@ -11,39 +10,19 @@ interface TextAnimationProps {
 }
 
 const TextAnimation: React.FC<TextAnimationProps> = ({ text, className, style }) => {
-  const textRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    const textWrapper = textRef.current;
-    if (!textWrapper) return;
-
-    textWrapper.innerHTML = text.replace(
-      /\S/g,
-      "<span class='letter' style='display:inline-block;'>$&</span>"
-    );
-
-    const timeline = anime.timeline({
-      loop: false,
-      autoplay: true,
-    });
-
-    timeline.add({
-      targets: textWrapper.querySelectorAll('.letter'),
-      opacity: [0, 1],
-      translateY: [40, 0],
-      translateZ: 0,
-      scaleX: [0.3, 1],
-      easing: 'easeOutExpo',
-      duration: 800,
-      delay: anime.stagger(40, { start: 500 }),
-    });
-
-    return () => {
-      timeline.pause();
-    };
-  }, [text]);
-
-  return <h1 ref={textRef} className={cn(className)} style={style}></h1>;
+  return (
+    <h1 className={cn('animated-text-container', className)} style={style}>
+      {text.split('').map((char, index) => (
+        <span
+          key={index}
+          className="animated-letter"
+          style={{ animationDelay: `${index * 50}ms` }}
+        >
+          {char === ' ' ? '\u00A0' : char}
+        </span>
+      ))}
+    </h1>
+  );
 };
 
 export default TextAnimation;
