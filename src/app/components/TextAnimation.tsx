@@ -15,14 +15,15 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
   useEffect(() => {
     const textWrapper = textWrapperRef.current;
     if (textWrapper) {
-      // Only run if the wrapper is empty to prevent re-running on hot reloads
-      if (textWrapper.innerHTML.trim() === text) {
-        textWrapper.innerHTML = text.replace(
-          /\S/g,
-          "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
-        );
+      // Wrap each letter in a span
+      textWrapper.innerHTML = text.replace(
+        /\S/g,
+        "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
+      );
 
-        anime({
+      // Animation timeline
+      anime.timeline({ loop: false })
+        .add({
           targets: textWrapper.querySelectorAll('.letter'),
           opacity: [0, 1],
           translateY: ['1.1em', 0],
@@ -32,7 +33,6 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
           delay: anime.stagger(100),
           easing: 'easeOutExpo',
         });
-      }
     }
   }, [text]);
 
