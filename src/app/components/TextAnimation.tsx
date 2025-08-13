@@ -15,11 +15,22 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
   useEffect(() => {
     const textWrapper = textWrapperRef.current;
     if (textWrapper) {
+      // Ensure the element is empty before adding new spans
+      textWrapper.innerHTML = '';
+      
       // Wrap each letter in a span
-      textWrapper.innerHTML = text.replace(
-        /\S/g,
-        "<span class='letter' style='display:inline-block; opacity:0;'>$&</span>"
-      );
+      text.split('').forEach(letter => {
+        const span = document.createElement('span');
+        span.textContent = letter;
+        span.className = 'letter';
+        if (letter.trim() === '') {
+          // Add a non-breaking space for whitespace to maintain layout
+          span.innerHTML = '&nbsp;'; 
+        }
+        span.style.display = 'inline-block';
+        span.style.opacity = '0'; // Start with opacity 0
+        textWrapper.appendChild(span);
+      });
 
       // Animation timeline
       anime.timeline({ loop: false })
@@ -38,7 +49,7 @@ const TextAnimation: React.FC<TextAnimationProps> = ({ text, className }) => {
 
   return (
     <h1 ref={textWrapperRef} className={cn("font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4", className)}>
-      {text}
+      {/* Text is populated by useEffect */}
     </h1>
   );
 };
