@@ -6,7 +6,7 @@ import { ArrowDown } from 'lucide-react';
 const HeroSection: FC = () => {
   return (
     <section id="hero" className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center text-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      <h1 className="font-headline text-shine text-4xl sm:text-5xl md:text-6xl font-bold mb-4 uppercase" style={{ letterSpacing: '7px' }}>
+      <h1 className="font-headline text-gradient text-4xl sm:text-5xl md:text-6xl font-bold mb-4 uppercase" style={{ letterSpacing: '7px' }}>
         Prasanna Patil
       </h1>
       <p className="font-body text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl">
