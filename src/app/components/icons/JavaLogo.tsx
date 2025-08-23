@@ -14,6 +14,6 @@ const JavaLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
       <ellipse cx="23.9" cy="18.9" rx="14.5" ry="14.5" fill="#f44336" transform="translate(-42.133 -49.68) scale(.5)" />
     </g>
   </svg>
-));
+);
 
 export default JavaLogo;
