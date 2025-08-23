@@ -14,10 +14,10 @@ const JavaLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   );
   
 const Css3Logo: FC<SVGProps<SVGSVGElement>> = (props) => (
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" {...props}>
-    <path fill="#2965f1" d="M114.3 0H13.7C6.1 0 0 6.1 0 13.7v100.6c0 7.6 6.1 13.7 13.7 13.7h100.6c7.6 0 13.7-6.1 13.7-13.7V13.7C128 6.1 121.9 0 114.3 0z"/>
-    <path fill="#ebebeb" d="m25.9 93.8 3.5-38.1h59.2l-5.6 58.5-24 6.6-24-6.6-1.6-18.4h17.9l.8 9.1 16.9 4.6 16.9-4.6.8-11.1H29.4l-3.5-38.6z"/>
-</svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" {...props}>
+        <path fill="#2965f1" d="M114.3 0H13.7C6.1 0 0 6.1 0 13.7v100.6c0 7.6 6.1 13.7 13.7 13.7h100.6c7.6 0 13.7-6.1 13.7-13.7V13.7C128 6.1 121.9 0 114.3 0z"/>
+        <path fill="#ebebeb" d="m25.9 93.8 3.5-38.1h59.2l-5.6 58.5-24 6.6-24-6.6-1.6-18.4h17.9l.8 9.1 16.9 4.6 16.9-4.6.8-11.1H29.4l-3.5-38.6z"/>
+    </svg>
 );
 
 const logoComponentMap: Record<string, FC<SVGProps<SVGSVGElement>>> = {
