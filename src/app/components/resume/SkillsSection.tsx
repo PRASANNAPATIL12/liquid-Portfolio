@@ -26,7 +26,7 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
                 return (
                   <div key={skill.id} className="flex flex-col items-center gap-3 text-center w-24">
                     <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
-                      <div className="relative w-12 h-12">
+                      <div className="relative w-12 h-12 flex items-center justify-center">
                         {LogoComponent ? (
                           <LogoComponent />
                         ) : skill.logoUrl ? (
@@ -38,7 +38,11 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
                             unoptimized
                             data-ai-hint="logo"
                           />
-                        ) : null}
+                        ) : (
+                          <span className="font-headline text-lg text-primary text-center">
+                            {skill.name === 'CSS3' ? 'CSS' : skill.name}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <p className="text-sm font-medium text-muted-foreground font-code">{skill.name}</p>

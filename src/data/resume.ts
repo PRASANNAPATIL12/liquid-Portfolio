@@ -1,6 +1,4 @@
 import type { FC, SVGProps } from 'react';
-import Css3Logo from '@/app/components/icons/Css3Logo';
-import JavaLogo from '@/app/components/icons/JavaLogo';
 
 export interface Experience {
   id: string;
@@ -101,12 +99,12 @@ export const resumeData = {
     { id: "sk1", name: "JavaScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
     { id: "sk2", name: "TypeScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
     { id: "sk3", name: "Python", category: "Languages", logoUrl: "https://cdn.simpleicons.org/python/3776AB" },
-    { id: "sk14", name: "Java", category: "Languages", logoComponent: JavaLogo },
+    { id: "sk14", name: "Java", category: "Languages" },
     { id: "sk4", name: "React", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/react/61DAFB" },
     { id: "sk5", name: "Next.js", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
     { id: "sk13", name: "Tailwind CSS", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
     { id: "sk15", name: "HTML5", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/html5/E34F26" },
-    { id: "sk16", name: "CSS3", category: "Frontend", logoComponent: Css3Logo },
+    { id: "sk16", name: "CSS3", category: "Frontend" },
     { id: "sk17", name: "Material-UI", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/mui/007FFF" },
     { id: "sk6", name: "Node.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
     { id: "sk7", name: "Express.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/express/FFFFFF" },
