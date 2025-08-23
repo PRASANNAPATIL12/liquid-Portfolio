@@ -20,8 +20,8 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
       <div className="space-y-12">
         {Object.entries(groupedSkills).map(([category, skillsInCategory]) => (
           <div key={category}>
-            <h3 className="font-headline text-gradient text-2xl mb-6 text-center md:text-left">{category}</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            <h3 className="font-headline text-gradient text-2xl mb-6 text-center">{category}</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-center">
               {skillsInCategory.map((skill) => (
                 <div key={skill.id} className="flex flex-col items-center gap-2 text-center">
                   <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
