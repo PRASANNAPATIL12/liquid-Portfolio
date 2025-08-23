@@ -97,7 +97,7 @@ export const resumeData = {
     { id: "sk1", name: "JavaScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
     { id: "sk2", name: "TypeScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
     { id: "sk3", name: "Python", category: "Languages", logoUrl: "https://cdn.simpleicons.org/python/3776AB" },
-    { id: "sk14", name: "Java", category: "Languages", logoUrl: "https://cdn.simpleicons.org/java/FFFFFF" },
+    { id: "sk14", name: "Java", category: "Languages", logoUrl: "https://cdn.simpleicons.org/oracle/FFFFFF/000000" },
     { id: "sk4", name: "React", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/react/61DAFB" },
     { id: "sk5", name: "Next.js", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
     { id: "sk13", name: "Tailwind CSS", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
