@@ -14,9 +14,8 @@ const JavaLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
   );
   
 const Css3Logo: FC<SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" {...props}>
-        <path fill="#2965f1" d="M114.3 0H13.7C6.1 0 0 6.1 0 13.7v100.6c0 7.6 6.1 13.7 13.7 13.7h100.6c7.6 0 13.7-6.1 13.7-13.7V13.7C128 6.1 121.9 0 114.3 0z"/>
-        <path fill="#ebebeb" d="m25.9 93.8 3.5-38.1h59.2l-5.6 58.5-24 6.6-24-6.6-1.6-18.4h17.9l.8 9.1 16.9 4.6 16.9-4.6.8-11.1H29.4l-3.5-38.6z"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="white" {...props}>
+        <path d="M480 32l-64 368-223.3 80L0 400l19.6-94.8h91.5l-8.4 41.5 150.3 51.2 150.3-51.2 21.3-104.1-271.3-1.3L172.3 160h224l-10.5 52.5-185.4.8.8 3.8h174.4l-21.3 104.1z"/>
     </svg>
 );
 
