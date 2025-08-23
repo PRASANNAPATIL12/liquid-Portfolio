@@ -2,7 +2,7 @@
 import type { FC } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Experience } from '@/data/resume';
+import type { Experience } from '@/data/resume.ts';
 import { Briefcase } from 'lucide-react';
 
 interface ExperienceCardProps {

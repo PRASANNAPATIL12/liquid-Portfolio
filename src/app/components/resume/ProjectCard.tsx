@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Github } from 'lucide-react';
-import type { Project } from '@/data/resume';
+import type { Project } from '@/data/resume.ts';
 import { Badge } from '@/components/ui/badge';
 
 

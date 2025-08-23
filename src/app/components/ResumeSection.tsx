@@ -1,6 +1,6 @@
 
 import type { FC } from 'react';
-import { resumeData } from '@/data/resume';
+import { resumeData } from '@/data/resume.ts';
 import ExperienceCard from './resume/ExperienceCard';
 import ProjectCard from './resume/ProjectCard';
 import SkillsSection from './resume/SkillsSection';

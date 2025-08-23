@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import ContactLinks from './ContactLinks';
 import { Mail, Phone, MapPin } from 'lucide-react';
-import { resumeData } from '@/data/resume';
+import { resumeData } from '@/data/resume.ts';
 
 const ContactSection: FC = () => {
   return (
