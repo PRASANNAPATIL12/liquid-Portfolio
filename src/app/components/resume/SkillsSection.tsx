@@ -21,26 +21,28 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
         {Object.entries(groupedSkills).map(([category, skillsInCategory]) => (
           <div key={category}>
             <h3 className="font-headline text-gradient text-2xl mb-8 text-center">{category}</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-8 justify-items-center">
-              {skillsInCategory.map((skill) => (
-                <div key={skill.id} className="flex flex-col items-center gap-3 text-center">
-                  <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
-                    {skill.logoUrl && (
-                      <div className="relative w-12 h-12">
-                        <Image
-                          src={skill.logoUrl}
-                          alt={`${skill.name} logo`}
-                          layout="fill"
-                          objectFit="contain"
-                          data-ai-hint="logo"
-                          unoptimized
-                        />
-                      </div>
-                    )}
+            <div className="flex justify-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-6 gap-y-8">
+                {skillsInCategory.map((skill) => (
+                  <div key={skill.id} className="flex flex-col items-center gap-3 text-center">
+                    <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
+                      {skill.logoUrl && (
+                        <div className="relative w-12 h-12">
+                          <Image
+                            src={skill.logoUrl}
+                            alt={`${skill.name} logo`}
+                            layout="fill"
+                            objectFit="contain"
+                            data-ai-hint="logo"
+                            unoptimized
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm font-medium text-muted-foreground font-code">{skill.name}</p>
                   </div>
-                  <p className="text-sm font-medium text-muted-foreground font-code">{skill.name}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         ))}
