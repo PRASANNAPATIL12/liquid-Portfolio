@@ -1,7 +1,6 @@
 
 import type { FC } from 'react';
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Skill } from '@/data/resume';
 
 const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
