@@ -1,3 +1,4 @@
+
 export interface Experience {
   id: string;
   title: string;
@@ -106,7 +107,7 @@ export const resumeData = {
     { id: "sk6", name: "Node.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
     { id: "sk7", name: "Express.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/express/FFFFFF" },
     { id: "sk18", name: "GraphQL", category: "Backend", logoUrl: "https://cdn.simpleicons.org/graphql/E10098" },
-    { id:_id: "sk8", name: "PostgreSQL", category: "Database", logoUrl: "https://cdn.simpleicons.org/postgresql/4169E1" },
+    { id: "sk8", name: "PostgreSQL", category: "Database", logoUrl: "https://cdn.simpleicons.org/postgresql/4169E1" },
     { id: "sk9", name: "MongoDB", category: "Database", logoUrl: "https://cdn.simpleicons.org/mongodb/47A248" },
     { id: "sk19", name: "MySQL", category: "Database", logoUrl: "https://cdn.simpleicons.org/mysql/4479A1" },
     { id: "sk20", name: "Redis", category: "Database", logoUrl: "https://cdn.simpleicons.org/redis/DC382D" },
