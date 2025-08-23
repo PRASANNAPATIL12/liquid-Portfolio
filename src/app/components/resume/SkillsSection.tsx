@@ -33,6 +33,7 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
                           layout="fill"
                           objectFit="contain"
                           data-ai-hint="logo"
+                          unoptimized
                         />
                       </div>
                     )}
