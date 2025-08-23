@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { Skill } from '@/data/resume';
+import type { Skill } from '@/data/resume.ts';
 import Image from 'next/image';
 
 const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
@@ -21,25 +21,30 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
           <div key={category}>
             <h3 className="font-headline text-gradient text-2xl mb-8 text-center">{category}</h3>
             <div className="flex flex-wrap justify-center items-center gap-y-8 gap-x-10">
-              {skillsInCategory.map((skill) => (
-                <div key={skill.id} className="flex flex-col items-center gap-3 text-center w-24">
-                  <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
-                    <div className="relative w-12 h-12">
-                      {skill.logoUrl ? (
-                        <Image
-                          src={skill.logoUrl}
-                          alt={`${skill.name} logo`}
-                          fill
-                          className="object-contain"
-                          unoptimized // Recommended for SVGs to prevent optimization issues
-                          data-ai-hint="logo"
-                        />
-                      ) : null}
+              {skillsInCategory.map((skill) => {
+                const LogoComponent = skill.logoComponent;
+                return (
+                  <div key={skill.id} className="flex flex-col items-center gap-3 text-center w-24">
+                    <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
+                      <div className="relative w-12 h-12">
+                        {LogoComponent ? (
+                          <LogoComponent />
+                        ) : skill.logoUrl ? (
+                          <Image
+                            src={skill.logoUrl}
+                            alt={`${skill.name} logo`}
+                            fill
+                            className="object-contain"
+                            unoptimized
+                            data-ai-hint="logo"
+                          />
+                        ) : null}
+                      </div>
                     </div>
+                    <p className="text-sm font-medium text-muted-foreground font-code">{skill.name}</p>
                   </div>
-                  <p className="text-sm font-medium text-muted-foreground font-code">{skill.name}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
