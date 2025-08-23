@@ -1,6 +1,5 @@
 
 import type { FC } from 'react';
-import Image from 'next/image';
 import type { Skill } from '@/data/resume';
 
 const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
@@ -27,13 +26,11 @@ const SkillsSection: FC<{ skills: Skill[] }> = ({ skills }) => {
                   <div className="w-20 h-20 p-4 bg-primary/10 rounded-2xl flex items-center justify-center glass-card hover:bg-primary/20 transition-all duration-300 transform hover:scale-110">
                     {skill.logoUrl && (
                       <div className="relative w-12 h-12">
-                        <Image
+                        <img
                           src={skill.logoUrl}
                           alt={`${skill.name} logo`}
-                          layout="fill"
-                          objectFit="contain"
+                          className="w-full h-full object-contain"
                           data-ai-hint="logo"
-                          unoptimized
                         />
                       </div>
                     )}
