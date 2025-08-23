@@ -9,7 +9,7 @@ export interface Experience {
 }
 
 export interface Project {
-  id: string;
+  id:string;
   name: string;
   description: string;
   technologies: string[];
@@ -22,7 +22,7 @@ export interface Skill {
   id: string;
   name: string;
   category: 'Frontend' | 'Backend' | 'Database' | 'DevOps' | 'AI/ML' | 'Tools' | 'Languages';
-  level?: number; // Optional: 0-100 for proficiency bar
+  logoUrl?: string; // Changed from level to logoUrl
 }
 
 export const resumeData = {
@@ -94,19 +94,19 @@ export const resumeData = {
     },
   ] as Project[],
   skills: [
-    { id: "sk1", name: "JavaScript", category: "Languages", level: 95 },
-    { id: "sk2", name: "TypeScript", category: "Languages", level: 90 },
-    { id: "sk3", name: "Python", category: "Languages", level: 80 },
-    { id: "sk4", name: "React", category: "Frontend", level: 95 },
-    { id: "sk5", name: "Next.js", category: "Frontend", level: 90 },
-    { id: "sk6", name: "Node.js", category: "Backend", level: 90 },
-    { id: "sk7", name: "Express.js", category: "Backend", level: 85 },
-    { id: "sk8", name: "PostgreSQL", category: "Database", level: 80 },
-    { id: "sk9", name: "MongoDB", category: "Database", level: 75 },
-    { id: "sk10", name: "Docker", category: "DevOps", level: 80 },
-    { id: "sk11", name: "Git", category: "Tools", level: 95 },
-    { id: "sk12", name: "Genkit", category: "AI/ML", level: 70 },
-    { id: "sk13", name: "Tailwind CSS", category: "Frontend", level: 90 },
+    { id: "sk1", name: "JavaScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/javascript/F7DF1E" },
+    { id: "sk2", name: "TypeScript", category: "Languages", logoUrl: "https://cdn.simpleicons.org/typescript/3178C6" },
+    { id: "sk3", name: "Python", category: "Languages", logoUrl: "https://cdn.simpleicons.org/python/3776AB" },
+    { id: "sk4", name: "React", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/react/61DAFB" },
+    { id: "sk5", name: "Next.js", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
+    { id: "sk13", name: "Tailwind CSS", category: "Frontend", logoUrl: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+    { id: "sk6", name: "Node.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/nodedotjs/339933" },
+    { id: "sk7", name: "Express.js", category: "Backend", logoUrl: "https://cdn.simpleicons.org/express/FFFFFF" },
+    { id: "sk8", name: "PostgreSQL", category: "Database", logoUrl: "https://cdn.simpleicons.org/postgresql/4169E1" },
+    { id: "sk9", name: "MongoDB", category: "Database", logoUrl: "https://cdn.simpleicons.org/mongodb/47A248" },
+    { id: "sk10", name: "Docker", category: "DevOps", logoUrl: "https://cdn.simpleicons.org/docker/2496ED" },
+    { id: "sk12", name: "Genkit", category: "AI/ML", logoUrl: "https://cdn.simpleicons.org/googlecloud/4285F4" }, // Using Google Cloud as a proxy for Genkit
+    { id: "sk11", name: "Git", category: "Tools", logoUrl: "https://cdn.simpleicons.org/git/F05032" },
   ] as Skill[],
   education: [
     {
